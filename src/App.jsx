@@ -3,26 +3,25 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 import { useEffect, useState } from "react";
+import { useTheme } from './hooks/useTheme';
 
 export default function App() {
-  const [dark, setDark] = useState(false);
-
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", dark);
-  }, [dark]);
+  const { theme, setTheme } = useTheme();
 
   return (
-    <div className="min-h-screen bg-bg-primary text-fg-primary transition-colors duration-300">
+    <div className="min-h-dvh bg-mist-200 dark:bg-indigo-950 text-mist-950 dark:text-mist-50 transition-colors duration-300">
       
       {/* Header */}
       <header className="p-6 flex justify-between items-center border-b border-border-default">
         <h1 className="text-2xl font-bold">Tailwind 4 Design System Showcase</h1>
-        <button
-          onClick={() => setDark(!dark)}
-          className="px-4 py-2 rounded-lg bg-btn-default hover:bg-btn-hover active:bg-btn-active disabled:bg-btn-disabled text-white transition"
-        >
-          {dark ? "Switch to Light" : "Switch to Dark"}
-        </button>
+            <button
+              onClick={() =>
+                setTheme(theme === "dark" ? "light" : "dark")
+              }
+              className="px-3 py-2 rounded-md bg-gray-200 dark:bg-gray-700"
+            >
+              {theme === "dark" ? "☀ Light" : "🌙 Dark"}
+          </button>
       </header>
 
       <main className="p-8 space-y-12">
