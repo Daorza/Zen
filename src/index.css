@@ -1,7 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+  /* font-family */
+  --font-family-jakarta: var(--font-plus-jakarta);
+
   /* color palette */
   --color-primary-900: #1A3263;
   --color-primary-600: #547792;
@@ -37,4 +41,9 @@
 
 body {
   background-color: var(--color-indigo-950);
+  font-family: var(--font-plus-jakarta);
+}
+
+body:dark {
+  background-color: var(--color-mist-50);
 }

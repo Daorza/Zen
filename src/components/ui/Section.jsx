@@ -1,4 +1,4 @@
-import { cn } from "@/lib/cn";
+import { cn } from "../../lib/cn";
 
 export function Section({
   children,
@@ -10,8 +10,8 @@ export function Section({
   return (
     <section
       className={cn(
-        "relative overflow-hidden",
-        variant === "default" && "bg-cyan-50 dark:bg-cyan-900/20",
+        "relative overflow-hidden min-h-dvh",
+        variant === "default" && "bg-mist-50 dark:bg-indigo-950",
         variant === "muted" &&
           "bg-transparent backdrop-blur-sm blur-md pointer-events-none",
         size === "sm" && "py-12 md:py-16",
