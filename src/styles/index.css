@@ -26,6 +26,11 @@
   --color-health: #4CAF7D;
   --color-creative: #FAB95B;
 
+  --blur-glass: 18px;
+  --blur-liquid: 120px;
+  --radius-card: 1.75rem;
+  --radius-pill: 9999px;
+
   /* prefix class */
   --color-bg-primary: var(--bg-primary);
   --color-bg-secondary: var(--bg-secondary);
@@ -37,4 +42,16 @@
 
 body {
   background-color: var(--color-indigo-950);
+}
+
+.glass {
+  background-color: var(--color-surface);
+  backdrop-filter: blur(var(--blur-glass));
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+}
+.glass-strong {
+  background-color: var(--color-surface-strong);
+  backdrop-filter: blur(var(--blur-glass));
+  border: 1px solid var(--color-border);
 }

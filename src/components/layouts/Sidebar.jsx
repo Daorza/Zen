@@ -31,7 +31,7 @@ const SideBar = () => {
       {/* Collapse Toggle Button */}
       <button
         onClick={() => setCollapsed(!collapsed)}
-        className="absolute -right-3.5 top-8 z-10 w-7 h-7 rounded-full bg-indigo-500 text-white flex items-center justify-center shadow-md hover:bg-indigo-600 transition-colors duration-200"
+        className="absolute -right-3.5 top-8 z-10 w-7 h-7 rounded-full bg-indigo-500 text-white flex items-center justify-center shadow-md hover:bg-indigo-600 transition-colors duration-200  cursor-pointer"
       >
         {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
       </button>

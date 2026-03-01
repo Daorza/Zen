@@ -1,4 +1,4 @@
-import { useSpring, useTransform } from "motion/react";
+import { useSpring, useTransform, motion } from "motion/react";
 
 function  AuroraBackground({mouseX, mouseY}){
     const y1 = useSpring(useTransform(mouseX, [0, 1], ["-15%", "15%"]), {stiffness: 40, damping: 20})
@@ -11,7 +11,7 @@ function  AuroraBackground({mouseX, mouseY}){
     const x3 = useSpring(useTransform(mouseY, [0, 1], ["-8%", "8%"]), {stiffness: 40, damping: 20})
     
     return (
-        <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none bg-gray-900">
+        <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none bg-indigo-100 dark:bg-slate-900">
              {/* Layer 1 - Indigo, follows cursor most */}
             <motion.div
                 className="absolute top-[-20%] left-[-10%] w-[80vw] h-[80vw] rounded-full opacity-30"
@@ -64,3 +64,4 @@ function  AuroraBackground({mouseX, mouseY}){
         </div>
     )
 }
+export default AuroraBackground;
