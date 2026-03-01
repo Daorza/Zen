@@ -40,7 +40,7 @@ const BottomBar = () => {
                   relative z-10 text-[10px] font-bold tracking-widest uppercase transition-all duration-400 ease-out
                   ${isActive
                     ? "opacity-100 translate-y-0 text-indigo-500 dark:text-indigo-400"
-                    : "opacity-40 translate-y-0.5 text-slate-500 dark:text-white/30 group-hover:opacity-70"
+                    : "opacity-40 translate-y-0.5 text-gray-700 dark:text-white/30 group-hover:opacity-70"
                   }
                 `}
               >
