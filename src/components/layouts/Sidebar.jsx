@@ -24,7 +24,7 @@ const SideBar = () => {
     <div
       className={`
         relative h-full flex flex-col gap-12 transition-all duration-300 ease-in-out
-        dark:bg-gray-900 bg-indigo-50 border-r border-indigo-100 shadow shadow-indigo-50
+        dark:bg-gray-900 bg-indigo-50 border-r border-indigo-100 dark:border-slate-800 shadow shadow-indigo-50 dark:shadow-slate-800
         ${collapsed ? "w-20" : "w-64"}
       `}
     >
