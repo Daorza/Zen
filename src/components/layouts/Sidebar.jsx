@@ -1,15 +1,15 @@
 import { MoonIcon, SunDimIcon, ChevronLeft, ChevronRight } from "lucide-react";
-import { LayoutDashboard, CheckSquare, Calendar, StickyNote } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import { useTheme } from "../../hooks/useTheme";
+import { LayoutDashboard, CheckSquare, Calendar, StickyNote } from "lucide-react";
 
 const MENU_ITEMS = [
-  { label: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
-  { label: "Tasks",     icon: CheckSquare,     path: "/task" },
-  { label: "Schedule",  icon: Calendar,        path: "/schedule" },
-  { label: "Notes",     icon: StickyNote,      path: "/notes" },
-];
+      { label: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
+      { label: "Tasks",     icon: CheckSquare,     path: "/task" },
+      { label: "Schedule",  icon: Calendar,        path: "/schedule" },
+      { label: "Notes",     icon: StickyNote,      path: "/notes" },
+    ];
 
 const SideBar = () => {
   const { theme, setTheme } = useTheme();
