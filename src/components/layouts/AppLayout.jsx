@@ -1,8 +1,14 @@
 import { Outlet } from "react-router-dom"
-export default function AppLayout () {
+import SideBar from "./Sidebar"
+export default function AppLayout() {
     return (
-        <>
-         <Outlet/>
-        </>
+        <div className="w-full h-screen flex gap-4 bg-indigo-100">
+            <div className="hidden md:block">
+                <SideBar/>
+            </div>
+            <div className="w-full h-full overflow-y-auto ">
+                <Outlet />
+            </div>
+        </div>
     )
 }
