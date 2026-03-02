@@ -14,7 +14,7 @@ export function Button({className, children, variant = "primary", ...props}) {
         variant === "disabled" && 
             "bg-gray-300 text-gray-500 cursor-not-allowed",
         variant === "outline" && 
-            "border border-gray-400 text-gray-400 hover:bg-gray-100",
+            "border border-gray-400 text-gray-400 hover:bg-gray-300",
         className
     )}>
         { children }

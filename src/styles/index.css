@@ -35,6 +35,4 @@
   --color-brand-primary: var(--brand-primary);
 }
 
-body {
-  background-color: var(--color-indigo-950);
-}
+
