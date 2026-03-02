@@ -1,7 +1,14 @@
 import React from 'react'
+import { Container } from '../ui/Container'
 
 export function Footer() {
   return (
-    <div>Footer</div>
+    <footer>
+      <Container>
+        <p>
+          { Date}
+        </p>
+      </Container>
+    </footer>
   )
 }

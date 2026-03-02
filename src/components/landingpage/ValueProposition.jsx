@@ -3,9 +3,9 @@ import { Container } from "../ui/Container";
 import { Section } from "../ui/Section";
 import { CheckIcon } from "@heroicons/react/24/outline";
 
-export function ValueProposition() {
+export default function ValueProposition() {
   return (
-    <Section className="min-h-dvh ">
+    <Section className="min-h-dvh flex items-center">
       <Container className="text-center space-y-6 text-indigo-950 dark:text-mist-50">
         <section className="grid grid-cols-2 justify-center items-center gap-16">
           <div className="space-y-8 text-left">

@@ -20,9 +20,9 @@ const features = [
   },
 ];
 
-export function Features() {
+export default function Features() {
   return (
-    <Section className="mx-8  rounded-2xl bg-white dark:bg-white/5 backdrop-blur-sm items-center flex">
+    <Section className="mx-8  rounded-2xl bg-slate-900/5 dark:bg-white/5 backdrop-blur-sm items-center flex">
       <Container className="space-y-10 text-center text-indigo-950 dark:text-mist-50">
         <h1 className="text-4xl font-bold capitalize">
           Prompt, review, beres!
@@ -32,11 +32,11 @@ export function Features() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="flex flex-col items-center space-y-4 rounded-2xl border border-indigo-100/20 bg-indigo-50/10 p-6 backdrop-blur-md transition hover:scale-105"
+              className="flex flex-col items-center space-y-6 rounded-2xl border border-indigo-300/50 dark:border-indigo-100/20 bg-indigo-100/10 dark:bg-indigo-50/10 p-6 backdrop-blur-md transition hover:scale-105"
             >
               <div className="text-4xl">{feature.icon}</div>
               <h2 className="text-2xl font-bold">{feature.title}</h2>
-              <p className="opacity-60">{feature.description}</p>
+              <p className="opacity-60 mb-4">{feature.description}</p>
             </div>
           ))}
         </div>

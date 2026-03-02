@@ -12,7 +12,7 @@ export function Section({
       className={cn(
         "relative overflow-hidden",
         variant === "default" && 
-          "bg-indigo-100 dark:bg-slate-900",
+          "bg-indigo-100 dark:bg-slate-900 ",
         variant === "muted" &&
           "bg-transparent backdrop-blur-sm blur-md pointer-events-none",
         size === "sm" && "py-12 md:py-16",
