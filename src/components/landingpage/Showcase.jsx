@@ -4,7 +4,7 @@ import { Container } from "../ui/Container";
 
 export default function Showcase() {
   return (
-    <Section>
+    <Section className="min-h-dvh">
       <Container>
         <div className="overflow-hidden rounded-2xl border border-slate-700/30 dark:border-slate-50/20 shadow-xl">
           
