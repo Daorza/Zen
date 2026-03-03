@@ -22,7 +22,7 @@ const features = [
 
 export default function Features() {
   return (
-    <Section className="mx-8 rounded-2xl bg-slate-900/5 dark:bg-white/5 backdrop-blur-sm items-center flex">
+    <Section className="mx-8 rounded-2xl bg-slate-900/5 dark:bg-white/5 backdrop-blur-sm items-center flex" id="features">
       <Container className="space-y-10 text-center text-indigo-950 dark:text-mist-50">
         <h1 className="text-4xl font-bold capitalize">
           Prompt, review, beres!

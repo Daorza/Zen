@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../hooks/useTheme";
 import { Container } from "../ui/Container";
 import { Button } from "../ui/Button";
+
 function animateThemeTransition(event, toggleTheme) {
   const button = event.currentTarget;
   const rect = button.getBoundingClientRect();
@@ -43,6 +44,7 @@ function animateThemeTransition(event, toggleTheme) {
     overlay.remove();
   };
 }
+
 export function Navbar() {
   const { theme, setTheme } = useTheme();
   const navigate = useNavigate();

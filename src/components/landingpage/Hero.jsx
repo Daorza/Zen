@@ -2,8 +2,11 @@ import React from "react";
 import { Section } from "../ui/Section";
 import { Container } from "../ui/Container";
 import { Button } from "../ui/Button";
+import { useNavigate } from "react-router-dom";
+import { ArrowRightIcon } from "@heroicons/react/24/outline";
 
 export default function Hero() {
+  const navigate = useNavigate();
   return (
     <Section>
       <Container className="text-center space-y-6 text-indigo-950 dark:text-mist-50 items-center flex flex-col h-">
@@ -33,12 +36,14 @@ export default function Hero() {
         </p>
 
         <section className="flex items-center justify-center gap-4 md:gap-8 mt-12 md:mt-16 *:font-semibold *:px-4 md:*:px-8 *:text-sm md:*:text-lg *:rounded-2xl">
-            <Button variant="secondary" className="hover:shadow-lg hover:shadow-indigo-300 hover:scale-105 transition-transform duration-200 border border-indigo-200 rounded-2xl">
+            <Button variant="secondary" className="hover:shadow-lg hover:shadow-indigo-300 hover:scale-105 transition-transform duration-200 border border-indigo-200 rounded-2xl"
+                onClick={() => navigate("/auth/login")}>
                 Mulai sekarang
             </Button>
 
-            <Button variant="outline" className="hover:text-indigo-950 hover:shadow-lg hover:shadow-indigo-300 hover:scale-95 transition-transform duration-200">
+            <Button variant="outline" className="flex items-center hover:text-indigo-950 hover:shadow-lg hover:shadow-indigo-300 hover:scale-95 transition-transform duration-200">
                 Pelajari lebih lanjut
+                <ArrowRightIcon className="size-4 ml-2" />
             </Button>
         </section>
       </Container>
