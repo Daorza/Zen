@@ -1,7 +1,7 @@
 import { createBrowserRouter, Outlet } from "react-router-dom";
 // import { AuthProvider } from "../hooks/useAuth";
 import LoginPage from "../pages/auth/LoginPage";
-import RegisterPage from "../pages/auth/RegiterPage";
+import RegisterPage from "../pages/auth/RegisterPage";
 import LandingPage from "../pages/landing/LandingPage";
 import AuthLayout from "../components/layouts/AuthLayout";
 import AppLayout from "../components/layouts/AppLayout"

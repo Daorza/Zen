@@ -17,10 +17,10 @@ export default function DashboardPage () {
 
             {/* stats card */}
             <div className="flex gap-6 items-center justify-start">
-                 <div className="h-56 bg-white/40 backdrop-blur-md rounded-2xl flex items-center justify-start gap-2 p-6 border border-indigo-300 shadow shadow-indigo-400">
+                 <div className="h-56 bg-white/40 dark:bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-start gap-2 p-6 border border-indigo-300 dark:border-indigo-400 shadow shadow-indigo-400">
                     <CircularProgress percentage={60} size={100}  />
                     <div className="ml-8 hidden sm:block">
-                        <p className="text-[10px] font-black uppercase tracking-widest dark:text-white/30 text-gray-600 mb-1">Status</p>
+                        <p className="text-[10px] font-black uppercase tracking-widest dark:text-white/70 text-gray-600 mb-1">Status</p>
                         <p className="text-lg dark:text-white uppercase font-extrabold text-indigo-500">
                         {60 >= 80 ? "Excellent!" : 60 >= 50 ? "On Track" : "Getting Started"}
                         </p>
