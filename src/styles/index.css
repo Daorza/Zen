@@ -51,3 +51,46 @@
   backdrop-filter: blur(var(--blur-glass));
   border: 1px solid var(--color-border);
 }
+
+/* nav animated ganti color scheme */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+
+::view-transition-new(root) {
+  clip-path: circle(0px at var(--x) var(--y));
+  animation: reveal 700ms ease-in-out forwards;
+}
+
+@keyframes reveal {
+  to {
+    clip-path: circle(150% at var(--x) var(--y));
+  }
+}
+
+/* Hide password reveal icon */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+input[type="password"]::-webkit-credentials-auto-fill-button {
+  visibility: hidden;
+  display: none !important;
+  pointer-events: none;
+}
+
+input[type="password"] {
+  appearance: none;
+}
+
+input::-ms-reveal {
+  display: none;
+}
+
+
+
+html {
+  scroll-behavior: smooth;
+}
