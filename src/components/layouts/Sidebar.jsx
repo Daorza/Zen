@@ -38,7 +38,7 @@ const SideBar = () => {
 
       {/* Logo */}
       <div className="mx-auto mt-6 overflow-hidden">
-        <h1 className="bg-linear-60 from-blue-500 to-indigo-500 bg-clip-text font-extrabold text-3xl text-transparent whitespace-nowrap">
+        <h1 className="bg-linear-60 from-blue-500 to-indigo-500 dark:from-blue-400 dark:to-indigo-300 bg-clip-text font-extrabold text-3xl text-transparent whitespace-nowrap">
             {
                 collapsed
                 ?"G"
