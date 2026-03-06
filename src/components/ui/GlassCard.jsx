@@ -1,7 +1,7 @@
 function GlassCard({ children, className = "", ...props }) {
   return (
     <div
-      className={`glass border border-white/40 backdrop-blur-glass p-8 md:p-12 ${className}`}
+      className={` bg-white/40 dark:bg-mist-600/20  backdrop-blur-md rounded-2xl border border-indigo-300 dark:border-blue-950 shadow shadow-indigo-400 dark:shadow-neutral-500 ${className}`}
       {...props}
     >
       {children}
