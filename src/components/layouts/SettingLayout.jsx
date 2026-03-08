@@ -35,7 +35,7 @@ const SettingLayout = ({ className, ...props }) => {
             className={`w-full h-full overflow-hidden bg-white/5 dark:bg-slate-950/20 backdrop-blur-2xl p-4 sm:p-8 ${className}`}
         >
             <section className="flex flex-col gap-6 h-full">
-                <header className="flex flex-col gap-1 pb-6 border-b dark:border-white/10 border-gray-200">
+                <header className=" flex-col gap-1 pb-6 border-b dark:border-white/10 border-gray-200 hidden sm:flex">
                     <h1 className="text-2xl font-semibold dark:text-white text-gray-900">
                         Settings
                     </h1>
