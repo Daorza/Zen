@@ -1,26 +1,37 @@
 import { useEffect, useState } from "react";
 
 export function useTheme() {
-  const [theme, setTheme] = useState(() => {
-    const stored = localStorage.getItem("theme");
-    if (stored) return stored;
-
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
+  const [theme, setThemeState] = useState(() => {
+    return localStorage.getItem("theme") ?? "system";
   });
 
   useEffect(() => {
     const root = document.documentElement;
 
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
+    const applyTheme = (t) => {
+      if (t === "dark") {
+        root.classList.add("dark");
+      } else {
+        root.classList.remove("dark");
+      }
+    };
 
-    localStorage.setItem("theme", theme);
+    if (theme === "system") {
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+      applyTheme(mediaQuery.matches ? "dark" : "light");
+
+      const listener = (e) => applyTheme(e.matches ? "dark" : "light");
+      mediaQuery.addEventListener("change", listener);
+      return () => mediaQuery.removeEventListener("change", listener);
+    } else {
+      applyTheme(theme);
+    }
   }, [theme]);
+
+  const setTheme = (t) => {
+    localStorage.setItem("theme", t);
+    setThemeState(t);
+  };
 
   return { theme, setTheme };
 }
