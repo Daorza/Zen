@@ -10,6 +10,10 @@ import SchedulePage from "../pages/schedule/SchedulePage"
 import TaskPage from "../pages/task/TaskPage"
 import NotesPage from "../pages/notes/NotesPage"
 import ChatPage from "../pages/chat/ChatPage"
+import SettingLayout from "../components/layouts/SettingLayout";
+import ProfilePage from "../pages/settings/Profile";
+import PasswordPage from "../pages/settings/Password";
+import AppearancePage from "../pages/settings/Appearance";
 // const RootWithAuth = () => {
 //     return (
 //         // auth provider here ..
@@ -17,30 +21,38 @@ import ChatPage from "../pages/chat/ChatPage"
 //     )
 // }
 const router = createBrowserRouter([
-        {
-            // RootWithAuth here ...
-            children: [
-                {
-                    element: <AuthLayout/>,
-                    children: [
-                        {path: '/auth/login', element: <LoginPage/>},
-                        {path: '/auth/register', element: <RegisterPage/>},
-                        {path: '/', element: <LandingPage/>},
-                    ]
-                },
-                {
-                    element: <AppLayout/>,
-                    children: [
-                        {path: '/dashboard', element: <DashboardPage/> },
-                        {path: '/schedule', element: <SchedulePage/>},
-                        {path: '/task', element: <TaskPage/>},
-                        {path: '/notes', element: <NotesPage/>},
-                        {path: '/chat', element: <ChatPage/>},
-                    ]
-                }
-            ]
-        }
-    ])
+    {
+        // RootWithAuth here ...
+        children: [
+            {
+                element: <AuthLayout />,
+                children: [
+                    { path: '/auth/login', element: <LoginPage /> },
+                    { path: '/auth/register', element: <RegisterPage /> },
+                    { path: '/', element: <LandingPage /> },
+                ]
+            },
+            {
+                element: <AppLayout />,
+                children: [
+                    { path: '/dashboard', element: <DashboardPage /> },
+                    { path: '/schedule', element: <SchedulePage /> },
+                    { path: '/task', element: <TaskPage /> },
+                    { path: '/notes', element: <NotesPage /> },
+                    { path: '/chat', element: <ChatPage /> },
+                    {
+                        element: <SettingLayout />,
+                        children: [
+                            { path: '/profile', element: <ProfilePage /> },
+                            { path: '/new-password', element: <PasswordPage /> },
+                            { path: '/appearance', element: <AppearancePage /> },
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+])
 
 export default router;
 

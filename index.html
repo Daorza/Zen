@@ -1,14 +1,28 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <link rel="stylesheet" href="index.html">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ifest14-project</title>
-  </head>
-  <body class="bg-indigo-100 dark:bg-slate-900 text-slate-950 dark:text-white">
-    <div id="root"></div>
-    <script type="module" src="./src/app/main.jsx"></script>
-  </body>
+
+<head>
+
+  <script>
+    (function () {
+      const theme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (theme === "dark" || (theme === "system" && prefersDark) || (!theme && prefersDark)) {
+        document.documentElement.classList.add("dark");
+      }
+    })();
+  </script>
+
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <link rel="stylesheet" href="src/styles/index.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ifest14-project</title>
+</head>
+
+<body class="bg-indigo-100 dark:bg-slate-900 text-slate-950 dark:text-white">
+  <div id="root"></div>
+  <script type="module" src="./src/app/main.jsx"></script>
+</body>
+
 </html>

@@ -46,6 +46,7 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
 }
+
 .glass-strong {
   background-color: var(--color-surface-strong);
   backdrop-filter: blur(var(--blur-glass));
@@ -93,4 +94,15 @@ input::-ms-reveal {
 
 html {
   scroll-behavior: smooth;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: block;
+  width: 1px;
+  height: 1px;
+}
+
+.no-scrollbar {
+  scrollbar-width: 1;
+  scrollbar-color: var(--color-indigo-500) transparent;
 }
