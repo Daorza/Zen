@@ -1,4 +1,4 @@
-import { GlassCard } from "../../components/ui/GlassCard"
+import GlassCard from "../../components/ui/GlassCard"
 import { CalendarWidget } from "../../components/schedule/CalendarWidget"
 import { DayProgressWidget } from "../../components/schedule/DayProgressWidget"
 import { ActivitiesWidget } from "../../components/schedule/ActivitiesWidget"
@@ -18,7 +18,7 @@ export default function SchedulePage() {
       </GlassCard>
 
       <GlassCard>
-        <ActivitiesWidget pending={1}/>
+        <ActivitiesWidget pending={1} />
       </GlassCard>
 
       <GlassCard>

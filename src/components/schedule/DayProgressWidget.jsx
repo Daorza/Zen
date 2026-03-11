@@ -1,5 +1,5 @@
 import React from "react"
-import { Progressbar } from "../ui/Progressbar"
+import ProgressBar from "../ui/Progressbar"
 
 export function DayProgressWidget({
   progress = 0,
@@ -17,7 +17,7 @@ export function DayProgressWidget({
         <span className="text-indigo-400">{progress}%</span>
       </div>
 
-      <Progressbar value={progress} />
+      <ProgressBar value={progress} />
 
       <div className="flex gap-4 text-xs text-slate-400">
 

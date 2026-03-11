@@ -16,9 +16,9 @@ export default function DashboardPage() {
             <DashboardStatistic />
             {/* Bottom — Activity cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <GlassCard className="flex items-center justify-start gap-2 p-6 h-56" />
-                <GlassCard className="flex items-center justify-start gap-2 p-6 h-56" />
-                <GlassCard className="flex items-center justify-start gap-2 p-6 h-56" />
+                <GlassCard className="flex items-center justify-start gap-2 p-6 h-56" skeleton />
+                <GlassCard className="flex items-center justify-start gap-2 p-6 h-56" skeleton />
+                <GlassCard className="flex items-center justify-start gap-2 p-6 h-56" skeleton />
             </div>
 
         </div>

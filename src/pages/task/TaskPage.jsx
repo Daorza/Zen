@@ -1,7 +1,7 @@
 import { LucidePlus, Search, SlidersHorizontal, X } from "lucide-react";
 import { MagicButton } from "../../components/ui/MagicButton";
 import GlassCard from "../../components/ui/GlassCard";
-import { ProgressBar } from "../../components/ui/Progressbar";
+import ProgressBar from "../../components/ui/Progressbar";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import MainTaskSection from "./features/MainTaskSection";

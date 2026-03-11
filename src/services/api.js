@@ -72,7 +72,7 @@ api.interceptors.response.use(
             } catch (err) {
                 processQueue(err, null);
                 authStore.clear();
-                window.location.href = '/login';
+                window.location.href = '/auth/login';
                 return Promise.reject(error)
             } finally {
                 isRefreshing = false;
