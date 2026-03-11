@@ -4,6 +4,7 @@ import GlassCard from "../../components/ui/GlassCard";
 import { ProgressBar } from "../../components/ui/Progressbar";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import MainTaskSection from "./features/MainTaskSection";
 
 const FILTER_OPTIONS = {
     priority: {
@@ -220,6 +221,8 @@ export default function TaskPage() {
                     </AnimatePresence>
                 </div>
             </div>
+            {/* main content */}
+            <MainTaskSection />
         </div>
     );
 }

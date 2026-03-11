@@ -9,7 +9,7 @@ export default function ValueProposition() {
       <Container className="text-center space-y-6 text-indigo-950 dark:text-mist-50">
         <section className="grid grid-cols-2 justify-center items-center gap-16">
           <div className="space-y-8 text-left">
-            <h1 className="text-5xl font-black">
+            <h1 className="font-display text-5xl font-black">
               Beban mental is real!
             </h1>
 

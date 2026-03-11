@@ -38,6 +38,10 @@
   --color-fg-secondary: var(--fg-secondary);
   --color-border-default: var(--border-default);
   --color-brand-primary: var(--brand-primary);
+
+  /* fonts */
+  --font-sans: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'ClashGrotesk', ui-sans-serif, system-ui, sans-serif;
 }
 
 .glass {
@@ -94,6 +98,11 @@ input::-ms-reveal {
 
 html {
   scroll-behavior: smooth;
+  font-family: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  font-family: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
 }
 
 .no-scrollbar::-webkit-scrollbar {

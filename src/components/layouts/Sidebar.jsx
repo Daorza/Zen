@@ -1,25 +1,26 @@
-import { MoonIcon, SunDimIcon, ChevronLeft, ChevronRight, LucideArrowUpDown, ArrowUpDownIcon } from "lucide-react";
+import { MoonIcon, SunDimIcon, ChevronLeft, ChevronRight, LucideArrowUpDown, ArrowUpDownIcon, CircleDollarSignIcon, DollarSign } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
-import { LayoutDashboard, CheckSquare, Calendar, StickyNote } from "lucide-react";
+import { LayoutDashboard, CheckSquare, Calendar, StickyNote, } from "lucide-react";
 import ProfileMenu from "./ProfileMenu";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const MENU_ITEMS = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
   { label: "Tasks", icon: CheckSquare, path: "/task" },
   { label: "Schedule", icon: Calendar, path: "/schedule" },
   { label: "Notes", icon: StickyNote, path: "/notes" },
+  { label: "Billing", icon: DollarSign, path: "/billing" }
 ];
-
-const PROFILE_DATA = {
-  name: "Nugroho Nur Cahyo",
-  email: "Nuganuca17@gmail.com"
-}
 const SideBar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
-
+  const { logout, user } = useAuth();
+  const PROFILE_DATA = {
+    name: user?.name ?? '',
+    email: user?.email ?? ''
+  }
   return (
     <div
       className={`
@@ -77,7 +78,7 @@ const SideBar = () => {
           <ProfileMenu
             data={PROFILE_DATA}
             collapsed={collapsed}
-            onLogout={() => { }}
+            onLogout={() => logout()}
             onSettings={() => navigate(('/profile'))} />
         </div>
       </div>

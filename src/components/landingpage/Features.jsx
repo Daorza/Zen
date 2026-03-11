@@ -24,7 +24,7 @@ export default function Features() {
   return (
     <Section className="mx-8 rounded-2xl bg-slate-900/5 dark:bg-white/5 backdrop-blur-sm items-center flex" id="features">
       <Container className="space-y-10 text-center text-indigo-950 dark:text-mist-50">
-        <h1 className="text-4xl font-bold capitalize">
+        <h1 className="font-display text-4xl font-bold capitalize">
           Prompt, review, beres!
         </h1>
 
@@ -35,7 +35,7 @@ export default function Features() {
               className="flex flex-col items-center space-y-6 rounded-2xl border border-indigo-300/50 dark:border-indigo-100/20 bg-indigo-100/10 dark:bg-indigo-50/10 p-6 backdrop-blur-md transition hover:scale-105"
             >
               <div className="text-4xl">{feature.icon}</div>
-              <h2 className="text-2xl font-bold">{feature.title}</h2>
+              <h2 className="font-display text-2xl font-bold">{feature.title}</h2>
               <p className="opacity-60 mb-4">{feature.description}</p>
             </div>
           ))}
