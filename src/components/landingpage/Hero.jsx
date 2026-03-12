@@ -22,7 +22,7 @@ export default function Hero() {
           </p>
         </section>
 
-        <header className="text-4xl md:text-7xl font-black dark:text-mist-50 text-mist-950 ">
+        <header className="font-display text-4xl md:text-7xl font-black dark:text-mist-50 text-mist-950 ">
           Rencanakan hidupmu <br />
           <span className="bg-clip-text text-transparent bg-linear-to-br from-pink-500 to-cyan-600 dark:bg-linear-to-br dark:from-cyan-400 dark:to-pink-500">
             secepat dirimu berpikir
@@ -30,21 +30,21 @@ export default function Hero() {
         </header>
 
         <p className="text-sm md:text-base text-slate-950 dark:text-mist-50/50 mt-4 w-4/5 mx-auto">
-          Ubah pikiran yang kacau menjadi hari yang terorganisir sempurna. 
+          Ubah pikiran yang kacau menjadi hari yang terorganisir sempurna.
           Perencanaan berbasis AI yang benar-benar bekerja sesuai dengan cara
           kerja Anda.
         </p>
 
         <section className="flex items-center justify-center gap-4 md:gap-8 mt-12 md:mt-16 *:font-semibold *:px-4 md:*:px-8 *:text-sm md:*:text-lg *:rounded-2xl">
-            <Button variant="secondary" className="hover:shadow-lg hover:shadow-indigo-300 hover:scale-105 transition-transform duration-200 border border-indigo-200 rounded-2xl"
-                onClick={() => navigate("/auth/login")}>
-                Mulai sekarang
-            </Button>
+          <Button variant="secondary" className="hover:shadow-lg hover:shadow-indigo-300 hover:scale-105 transition-transform duration-200 border border-indigo-200 rounded-2xl"
+            onClick={() => navigate("/auth/login")}>
+            Mulai sekarang
+          </Button>
 
-            <Button variant="outline" className="flex items-center hover:text-indigo-950 hover:shadow-lg hover:shadow-indigo-300 hover:scale-95 transition-transform duration-200">
-                Pelajari lebih lanjut
-                <ArrowRightIcon className="size-4 ml-2" />
-            </Button>
+          <Button variant="outline" className="flex items-center hover:text-indigo-950 hover:shadow-lg hover:shadow-indigo-300 hover:scale-95 transition-transform duration-200">
+            Pelajari lebih lanjut
+            <ArrowRightIcon className="size-4 ml-2" />
+          </Button>
         </section>
       </Container>
     </Section>

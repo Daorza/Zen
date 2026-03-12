@@ -1,22 +1,22 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Section } from "../../components/ui/Section";
 import { Container } from "../../components/ui/Container";
 import {
   AtSymbolIcon,
   LockClosedIcon,
-  EyeSlashIcon,
-  EyeIcon,
   UserCircleIcon,
   ArrowLongLeftIcon,
 } from "@heroicons/react/24/outline";
 import { Button } from "../../components/ui/Button";
+import { FormInput } from "../../components/ui/FormInput"; // sesuaikan path-nya
+import useAuth from "../../hooks/useAuth";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
+  const { register, loading } = useAuth();
 
   const [step, setStep] = useState(1);
-
   const [formData, setFormData] = useState({
     fullname: "",
     email: "",
@@ -25,8 +25,7 @@ export default function RegisterPage() {
   });
 
   const [error, setError] = useState({});
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [apiError, setApiError] = useState('');
 
   const handleChange = (e) => {
     setFormData({
@@ -46,7 +45,7 @@ export default function RegisterPage() {
   const validate2 = () => {
     const newError = {};
     if (!formData.password) newError.password = "Password harus diisi";
-    if (formData.password.length < 8)
+    else if (formData.password.length < 8)
       newError.password = "Password minimal 8 karakter";
     if (formData.confirmPassword !== formData.password)
       newError.confirmPassword = "Password tidak cocok";
@@ -55,14 +54,26 @@ export default function RegisterPage() {
   };
 
   const handleNext = () => {
-    if (validate1()) setStep(2);
+    if (validate1()) {
+      setError({});
+      setStep(2);
+    }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validate2()) return;
+  const handleBack = () => {
+    setError({});
+    setStep(1);
+  };
 
-    console.log("Register data:", formData);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validate2()) return;
+    setApiError('');
+    try {
+      await register(formData.fullname, formData.email, formData.password, formData.confirmPassword);
+    } catch (err) {
+      setApiError(err?.response?.data?.message ?? 'Terjadi kesalahan, coba lagi.');
+    }
   };
 
   return (
@@ -75,6 +86,7 @@ export default function RegisterPage() {
             </h1>
           </div>
 
+          {/* Step Indicator */}
           <div className="space-y-4">
             <div className="flex items-center justify-between relative">
               {/* Background line */}
@@ -82,17 +94,15 @@ export default function RegisterPage() {
 
               {/* Active progress line */}
               <div
-                className={`absolute top-1/4 left-2 w-11/12 h-1 bg-indigo-600 -translate-y-1/2 z-0 transition-all duration-500`}
+                className="absolute top-1/4 left-2 h-1 bg-indigo-600 -translate-y-1/2 z-0 transition-all duration-500"
                 style={{ width: step === 1 ? "0%" : "90%" }}
               />
+
+              {/* Step 1 */}
               <div className="z-10 flex flex-col items-center">
                 <div
                   className={`w-10 h-10 flex items-center justify-center rounded-full text-sm font-bold transition-all
-                  ${
-                    step >= 1
-                      ? "bg-indigo-600 text-white"
-                      : "bg-slate-200 text-slate-500"
-                  }`}
+                  ${step >= 1 ? "bg-indigo-600 text-white" : "bg-slate-200 text-slate-500"}`}
                 >
                   1
                 </div>
@@ -100,14 +110,10 @@ export default function RegisterPage() {
               </div>
 
               {/* Step 2 */}
-              <div className="z-10 flex flex-col items-center ">
+              <div className="z-10 flex flex-col items-center">
                 <div
                   className={`w-10 h-10 flex items-center justify-center rounded-full text-sm font-bold transition-all
-                  ${
-                    step === 2
-                      ? "bg-indigo-600 text-white"
-                      : "bg-slate-200 text-slate-500"
-                  }`}
+                  ${step === 2 ? "bg-indigo-600 text-white" : "bg-slate-200 text-slate-500"}`}
                 >
                   2
                 </div>
@@ -116,63 +122,47 @@ export default function RegisterPage() {
             </div>
           </div>
 
+          {apiError && (
+            <p className="rounded-xl bg-red-500/10 border border-red-400/30 px-4 py-3 text-sm text-red-500 text-center">
+              {apiError}
+            </p>
+          )}
+
           <form className="space-y-6" onSubmit={handleSubmit}>
             {step === 1 && (
               <>
-                <div className="space-y-2">
-                  <label
-                    htmlFor="username"
-                    className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300"
-                  >
-                    Nama Lengkap
-                  </label>
+                <div className="space-y-4">
+                  <FormInput
+                    id="username"
+                    label="Nama Lengkap"
+                    type="text"
+                    name="fullname"
+                    value={formData.fullname}
+                    onChange={handleChange}
+                    required
+                    autoComplete="username"
+                    placeholder="John Doe"
+                    icon={<UserCircleIcon className="size-5" />}
+                  />
+                  {error.fullname && (
+                    <p className="text-red-500 text-xs -mt-2">{error.fullname}</p>
+                  )}
 
-                  <div className="group mt-2 flex items-center gap-3 rounded-xl border border-slate-300/50 dark:border-slate-100/20 bg-slate-900/20 dark:bg-slate-400/20 px-4 py-3 focus-within:ring-2 focus-within:ring-indigo-500 transition">
-                    <UserCircleIcon className="size-5 text-slate-500 transition group-focus-within:text-indigo-500" />
-                    <input
-                      id="username"
-                      type="text"
-                      name="fullname"
-                      value={formData.fullname}
-                      onChange={handleChange}
-                      required
-                      autoComplete="username"
-                      placeholder="John Doe"
-                      className="w-full bg-transparent text-sm focus:outline-none placeholder:text-slate-400"
-                    />
-                    {error.fullName && (
-                      <p className="text-red-500 text-xs mt-1">
-                        {error.fullName}
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label
-                    htmlFor="email"
-                    className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300"
-                  >
-                    Alamat Email
-                  </label>
-
-                  <div className="group mt-2 flex items-center gap-3 rounded-xl border border-slate-300/50 dark:border-slate-100/20 bg-slate-900/20 dark:bg-slate-400/20 px-4 py-3 focus-within:ring-2 focus-within:ring-indigo-500 transition">
-                    <AtSymbolIcon className="size-5 text-slate-500 transition group-focus-within:text-indigo-500" />
-                    <input
-                      id="email"
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      autoComplete="email"
-                      placeholder="example@gmail.com"
-                      className="w-full bg-transparent text-sm focus:outline-none placeholder:text-slate-400"
-                    />
-                    {error.email && (
-                      <p className="text-red-500 text-xs mt-1">{error.email}</p>
-                    )}
-                  </div>
+                  <FormInput
+                    id="email"
+                    label="Alamat Email"
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    autoComplete="email"
+                    placeholder="example@gmail.com"
+                    icon={<AtSymbolIcon className="size-5" />}
+                  />
+                  {error.email && (
+                    <p className="text-red-500 text-xs -mt-2">{error.email}</p>
+                  )}
                 </div>
 
                 <Button
@@ -185,97 +175,46 @@ export default function RegisterPage() {
                 </Button>
               </>
             )}
+
             {step === 2 && (
               <>
-                <div className="space-y-2">
-                  <label
-                    htmlFor="password"
-                    className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300"
-                  >
-                    Password
-                  </label>
-
-                  <div className="mt-2 group flex items-center gap-3 rounded-xl border border-slate-300/50 dark:border-slate-100/20 bg-slate-900/20 dark:bg-slate-400/20 px-4 py-3 focus-within:ring-2 focus-within:ring-indigo-500 transition">
-                    <LockClosedIcon className="size-5 text-slate-500 transition group-focus-within:text-indigo-500" />
-
-                    <input
-                      id="password"
-                      type={showPassword ? "text" : "password"}
-                      name="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      placeholder="********"
-                      className="w-full bg-transparent text-sm focus:outline-none placeholder:text-slate-400"
-                    />
-
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="text-slate-500 transition hover:text-indigo-500"
-                    >
-                      {showPassword ? (
-                        <EyeSlashIcon className="size-5" />
-                      ) : (
-                        <EyeIcon className="size-5" />
-                      )}
-                    </button>
-                  </div>
-
+                <div className="space-y-4">
+                  <FormInput
+                    id="password"
+                    label="Password"
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="********"
+                    icon={<LockClosedIcon className="size-5" />}
+                  />
                   {error.password && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {error.password}
-                    </p>
+                    <p className="text-red-500 text-xs -mt-2">{error.password}</p>
                   )}
-                </div>
 
-                <div className="space-y-2">
-                  <label
-                    htmlFor="confirmPassword"
-                    className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300"
-                  >
-                    Konfirmasi Password
-                  </label>
-
-                  <div className="mt-2 group flex items-center gap-3 rounded-xl border border-slate-300/50 dark:border-slate-100/20 bg-slate-900/20 dark:bg-slate-400/20 px-4 py-3 focus-within:ring-2 focus-within:ring-indigo-500 transition">
-                    <LockClosedIcon className="size-5 text-slate-500 transition group-focus-within:text-indigo-500" />
-
-                    <input
-                      id="confirmPassword"
-                      type={showConfirmPassword ? "text" : "password"}
-                      name="confirmPassword"
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      placeholder="********"
-                      className="w-full bg-transparent text-sm focus:outline-none placeholder:text-slate-400"
-                    />
-
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setShowConfirmPassword(!showConfirmPassword)
-                      }
-                      className="text-slate-500 transition hover:text-indigo-500"
-                    >
-                      {showConfirmPassword ? (
-                        <EyeSlashIcon className="size-5" />
-                      ) : (
-                        <EyeIcon className="size-5" />
-                      )}
-                    </button>
-                  </div>
-
+                  <FormInput
+                    id="confirmPassword"
+                    label="Konfirmasi Password"
+                    type="password"
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    placeholder="********"
+                    icon={<LockClosedIcon className="size-5" />}
+                  />
                   {error.confirmPassword && (
-                    <p className="text-red-500 text-xs mt-1">
-                      {error.confirmPassword}
-                    </p>
+                    <p className="text-red-500 text-xs -mt-2">{error.confirmPassword}</p>
                   )}
                 </div>
 
                 <div className="flex gap-4 pt-2">
-                  <Button 
-                    variant="outline" 
-                    onClick={() => setStep(1)}
-                    className="flex items-center justify-center w-full gap-2 rounded-2xl border border-indigo-200/40 py-3 font-semibold transition-all hover:scale-[1.02] hover:shadow-md hover:shadow-indigo-300 hover:text-slate-900 mt-4"  >
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleBack}
+                    className="flex items-center justify-center w-full gap-2 rounded-2xl border border-indigo-200/40 py-3 font-semibold transition-all hover:scale-[1.02] hover:shadow-md hover:shadow-indigo-300 hover:text-slate-900 mt-4"
+                  >
                     <ArrowLongLeftIcon className="size-5" />
                     Kembali
                   </Button>
@@ -283,12 +222,14 @@ export default function RegisterPage() {
                   <Button
                     variant="primary"
                     type="submit"
-                    className="w-full rounded-2xl border border-indigo-300/40 py-3 font-semibold transition-all hover:scale-[1.02] hover:shadow-lg hover:shadow-indigo-500 hover:bg-indigo-600 mt-4">
-                    Daftar
+                    disabled={loading}
+                    className="w-full rounded-2xl border border-indigo-300/40 py-3 font-semibold transition-all hover:scale-[1.02] hover:shadow-lg hover:shadow-indigo-500 hover:bg-indigo-600 mt-4 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  >
+                    {loading ? "Memproses..." : "Daftar"}
                   </Button>
                 </div>
               </>
-            )}{" "}
+            )}
           </form>
 
           <p className="text-center text-xs font-medium text-slate-600 dark:text-slate-300">

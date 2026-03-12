@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "motion/react";
 
-export function ProgressBar({ current = 14, total = 20, label = "Ingat aktivitas harianmu!" }) {
+export default function ProgressBar({ current = 14, total = 20, label = "Ingat aktivitas harianmu!" }) {
     const percentage = Math.round((current / total) * 100);
     const [hovered, setHovered] = useState(false);
     const ref = useRef(null);

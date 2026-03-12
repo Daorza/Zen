@@ -1,5 +1,5 @@
 import { createBrowserRouter, Outlet } from "react-router-dom";
-// import { AuthProvider } from "../hooks/useAuth";
+import NotFoundPage from "../pages/NotFoundPage";
 import LoginPage from "../pages/auth/LoginPage";
 import RegisterPage from "../pages/auth/RegisterPage";
 import LandingPage from "../pages/landing/LandingPage";
@@ -14,15 +14,20 @@ import SettingLayout from "../components/layouts/SettingLayout";
 import ProfilePage from "../pages/settings/Profile";
 import PasswordPage from "../pages/settings/Password";
 import AppearancePage from "../pages/settings/Appearance";
-// const RootWithAuth = () => {
-//     return (
-//         // auth provider here ..
-//          <Outlet/>
-//     )
-// }
+import { AuthProvider } from "../hooks/useAuth";
+import RequireAuth from "../components/layouts/RequireAuth";
+
+function RootWithAuth() {
+    return (
+        <AuthProvider>
+            <Outlet />
+        </AuthProvider>
+    )
+}
+
 const router = createBrowserRouter([
     {
-        // RootWithAuth here ...
+        element: <RootWithAuth />,
         children: [
             {
                 element: <AuthLayout />,
@@ -33,30 +38,31 @@ const router = createBrowserRouter([
                 ]
             },
             {
-                element: <AppLayout />,
+                element: <RequireAuth />,
                 children: [
-                    { path: '/dashboard', element: <DashboardPage /> },
-                    { path: '/schedule', element: <SchedulePage /> },
-                    { path: '/task', element: <TaskPage /> },
-                    { path: '/notes', element: <NotesPage /> },
-                    { path: '/chat', element: <ChatPage /> },
                     {
-                        element: <SettingLayout />,
+                        element: <AppLayout />,
                         children: [
-                            { path: '/profile', element: <ProfilePage /> },
-                            { path: '/new-password', element: <PasswordPage /> },
-                            { path: '/appearance', element: <AppearancePage /> },
+                            { path: '/dashboard', element: <DashboardPage /> },
+                            { path: '/schedule', element: <SchedulePage /> },
+                            { path: '/task', element: <TaskPage /> },
+                            { path: '/notes', element: <NotesPage /> },
+                            { path: '/chat', element: <ChatPage /> },
+                            {
+                                element: <SettingLayout />,
+                                children: [
+                                    { path: '/profile', element: <ProfilePage /> },
+                                    { path: '/new-password', element: <PasswordPage /> },
+                                    { path: '/appearance', element: <AppearancePage /> },
+                                ]
+                            }
                         ]
-                    }
+                    },
                 ]
-            }
+            },
+            { path: '*', element: <NotFoundPage /> }
         ]
     }
 ])
 
 export default router;
-
-
-
-
-

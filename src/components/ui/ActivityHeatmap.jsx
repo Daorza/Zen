@@ -156,7 +156,7 @@ function Tooltip({ tooltip }) {
 
 export default function ActivityHeatmap({ activityData }) {
   const dataMap = useMemo(
-    () => logsToMap(activityData ?? MOCK_LOGS),
+    () => logsToMap(activityData ?? []),
     [activityData]
   );
 
