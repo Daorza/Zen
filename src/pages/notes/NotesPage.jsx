@@ -6,6 +6,7 @@ import { MagicButton } from "../../components/ui/MagicButton";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import Modal from "../../components/ui/Modal";
 import { Textarea, TextInput } from "../../components/ui/Input";
+import SearchBar from "../../components/ui/SearchBar";
 
 const categories = ["Personal", "Work", "Learning", "Finance"];
 
@@ -92,7 +93,7 @@ export default function NotesPage() {
           </MagicButton>
         </div>
 
-        <NotesSearch />
+        <SearchBar />
         <CategoryFilter />
         <NotesGrid />
       </div>

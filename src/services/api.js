@@ -61,7 +61,7 @@ api.interceptors.response.use(
             isRefreshing = true;
             try {
                 const { data } = await axios.post(
-                    `${import.meta.env.API_URL}/api/auth/refresh`,
+                    "https://apigenzen.vercel.app/api/auth/refresh",
                     { refreshToken }
                 );
                 const newToken = data.data.accessToken;

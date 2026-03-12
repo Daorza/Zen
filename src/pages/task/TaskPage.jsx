@@ -11,6 +11,7 @@ import TaskProgress from "./features/TaskProgress";
 import { useTodos } from "../../hooks/useTodos";
 import Modal from "../../components/ui/Modal";
 import AddTaskForm from "./features/AddTaskForm";
+import SearchBar from "../../components/ui/SearchBar";
 
 export default function TaskPage() {
     const {
@@ -60,33 +61,7 @@ export default function TaskPage() {
             <TaskProgress todos={todos} />
 
             <div className="flex items-center gap-2 w-full">
-                <div className="relative flex-1">
-                    <Search
-                        size={15}
-                        className="absolute left-3 top-1/2 -translate-y-1/2 dark:text-white/25 text-gray-400 pointer-events-none"
-                    />
-                    <input
-                        type="text"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        placeholder="Cari tugas..."
-                        className="w-full pl-9 pr-9 py-2.5 rounded-xl text-sm font-medium
-                            dark:bg-white/5 bg-white
-                            dark:border-white/10 border-gray-200 border
-                            dark:text-white text-gray-900
-                            dark:placeholder:text-white/25 placeholder:text-gray-400
-                            focus:outline-none dark:focus:border-indigo-500/50 focus:border-indigo-400
-                            transition-all duration-150"
-                    />
-                    {search && (
-                        <button
-                            onClick={() => setSearch("")}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 dark:text-white/30 text-gray-400 hover:dark:text-white/60 hover:text-gray-600 cursor-pointer transition-colors"
-                        >
-                            <X size={14} />
-                        </button>
-                    )}
-                </div>
+                <SearchBar value={search} setSearch={setSearch} placeholder="Cari tugas..." />
 
                 <div className="relative" ref={filterRef}>
                     <button
@@ -160,7 +135,7 @@ export default function TaskPage() {
             )}
 
             <Modal isOpen={addModalOpen} onClose={() => setAddModalOpen(false)} title="Tambah Tugas">
-                <AddTaskForm addTodo={addTodo} />
+                <AddTaskForm addTodo={addTodo} setAddModalOpen={setAddModalOpen} />
             </Modal>
         </div>
     );

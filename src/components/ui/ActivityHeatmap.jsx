@@ -162,7 +162,7 @@ export default function ActivityHeatmap({ activityData }) {
 
   const [tooltip, setTooltip] = useState(null);
 
-  const today = new Date("2026-03-07");
+  const today = new Date();
 
   const startDate = new Date(today);
   startDate.setDate(today.getDate() - 363);

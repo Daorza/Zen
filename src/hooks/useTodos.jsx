@@ -46,11 +46,19 @@ export function useTodos() {
     };
 
     const addTodo = async (data) => {
-
+        // optimistically add with a temporary ID so it has an id immediately
+        const tempId = `temp-${Date.now()}`;
+        const optimisticTodo = { ...data, id: tempId };
+        
         const prev = todos;
-        setTodos([...prev, data]);
+        setTodos([...prev, optimisticTodo]);
+        
         try {
-            await activityService.create(data);
+            const newTodo = await activityService.create(data);
+            // Replace the temporary todo with the real one from the server
+            setTodos((currentTodos) => 
+                currentTodos.map((todo) => todo.id === tempId ? newTodo : todo)
+            );
         } catch (err) {
             setTodos(prev);
             setError(err);
@@ -109,5 +117,6 @@ export function useTodos() {
         setFilters,
         search,
         setSearch,
+        addTodo
     };
 }
