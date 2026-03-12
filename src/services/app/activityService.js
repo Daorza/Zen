@@ -57,6 +57,11 @@ export const activityService = {
         const { data } = await api.patch(`/activities/${id}/status`, { status });
         return createActivity(data.data);
     },
+
+    async toggle(id) {
+        const { data } = await api.patch(`/activities/${id}/toggle`);
+        return createActivity(data.data);
+    }
 }
 
 export default activityService;
