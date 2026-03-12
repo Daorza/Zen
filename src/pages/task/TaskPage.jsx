@@ -9,6 +9,8 @@ import { FilterDropdown, FILTER_OPTIONS } from "./features/Filter";
 import TaskHeader from "./features/TaskHeader";
 import TaskProgress from "./features/TaskProgress";
 import { useTodos } from "../../hooks/useTodos";
+import Modal from "../../components/ui/Modal";
+import AddTaskForm from "./features/AddTaskForm";
 
 export default function TaskPage() {
     const {
@@ -23,11 +25,13 @@ export default function TaskPage() {
         deleteTodo,
         search,
         setSearch,
+        addTodo
     } = useTodos();
 
     const [filterOpen, setFilterOpen] = useState(false);
-    const filterRef = useRef(null);
+    const [addModalOpen, setAddModalOpen] = useState(false);
 
+    const filterRef = useRef(null);
     useEffect(() => {
         const handler = (e) => {
             if (filterRef.current && !filterRef.current.contains(e.target)) {
@@ -50,14 +54,11 @@ export default function TaskPage() {
     }).length;
 
     return (
-        <div className="sm:p-8 p-4 pb-28 md:pb-8 flex flex-col gap-4">
-            {/* Header */}
-            <TaskHeader />
+        <div className="sm:p-8 p-4 pb-28 md:pb-8 flex flex-col gap-6">
+            <TaskHeader onAction={() => { setAddModalOpen(true) }} className="mb-4" />
 
-            {/* Progress card — pakai todos (data asli, tidak terpengaruh filter) */}
             <TaskProgress todos={todos} />
 
-            {/* Search + Filter */}
             <div className="flex items-center gap-2 w-full">
                 <div className="relative flex-1">
                     <Search
@@ -157,6 +158,10 @@ export default function TaskPage() {
                     isFiltering={isFiltering}
                 />
             )}
+
+            <Modal isOpen={addModalOpen} onClose={() => setAddModalOpen(false)} title="Tambah Tugas">
+                <AddTaskForm addTodo={addTodo} />
+            </Modal>
         </div>
     );
 }

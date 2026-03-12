@@ -45,6 +45,17 @@ export function useTodos() {
         }
     };
 
+    const addTodo = async (data) => {
+
+        const prev = todos;
+        setTodos([...prev, data]);
+        try {
+            await activityService.create(data);
+        } catch (err) {
+            setTodos(prev);
+            setError(err);
+        }
+    }
     const isFiltering = useMemo(() => {
         return (
             search.trim() !== "" ||

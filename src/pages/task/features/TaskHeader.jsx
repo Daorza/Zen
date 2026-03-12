@@ -1,8 +1,8 @@
 import { MagicButton } from "../../../components/ui/MagicButton"
 import { LucidePlus } from "lucide-react"
-const TaskHeader = () => {
+const TaskHeader = ({ onAction, className }) => {
     return (
-        <div className="flex justify-between items-center">
+        <div className={`flex justify-between items-center ${className}`}>
             <div className="flex flex-col gap-1">
                 <h1 className="text-3xl font-bold dark:text-white text-gray-900">
                     Tugas
@@ -11,7 +11,7 @@ const TaskHeader = () => {
                     Ingat aktivitas harianmu!
                 </p>
             </div>
-            <MagicButton variant="primary">
+            <MagicButton variant="primary" onClick={onAction}>
                 <LucidePlus size={16} />
                 Tambah Tugas
             </MagicButton>
