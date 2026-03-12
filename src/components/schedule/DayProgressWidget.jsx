@@ -1,5 +1,4 @@
-import React from "react"
-import { ProgressBar } from "../../components/ui/Progressbar";
+import ProgressBar from "../../components/ui/Progressbar";
 import { BoltIcon, CheckCircleIcon, ClockIcon, SunIcon, ArchiveBoxIcon } from "@heroicons/react/24/outline";
 
 

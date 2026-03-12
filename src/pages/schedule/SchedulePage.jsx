@@ -30,10 +30,6 @@ export default function SchedulePage() {
           </MagicButton>
       </div>
 
-      <GlassCard>
-        <ActivitiesWidget pending={1} />
-      </GlassCard>
-
       {/* MAIN GRID */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
 
