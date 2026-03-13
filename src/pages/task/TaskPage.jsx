@@ -66,7 +66,7 @@ export default function TaskPage() {
                 <div className="relative" ref={filterRef}>
                     <button
                         onClick={() => setFilterOpen((v) => !v)}
-                        className={`relative flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-sm font-semibold border transition-all duration-150 cursor-pointer
+                        className={`relative flex items-center gap-2 px-3.5 py-4 rounded-xl text-sm font-semibold border transition-all duration-150 cursor-pointer
                             ${filterOpen || activeFilterCount > 0
                                 ? "dark:bg-indigo-500/15 bg-indigo-500/10 dark:border-indigo-500/30 border-indigo-300 text-indigo-600 dark:text-indigo-400"
                                 : "dark:bg-white/5 bg-white dark:border-white/10 border-gray-200 dark:text-white/50 text-gray-500 hover:dark:bg-white/10 hover:bg-gray-50"
@@ -122,8 +122,9 @@ export default function TaskPage() {
             {loading ? (
                 <GlassCard className="w-full h-20" skeleton />
             ) : error ? (
-                <div className="flex justify-center py-12 text-red-500 text-sm">
-                    Gagal memuat tugas.
+                <div className="w-full flex flex-col justify-center gap-4 items-center py-16">
+                    <img src="/image/bug-image.svg" alt="bug image" className="w-96 mx-auto" />
+                    <h6 className="text-slate-500 dark:text-white/40">Terjadi Kesalahan</h6>
                 </div>
             ) : (
                 <MainTaskSection

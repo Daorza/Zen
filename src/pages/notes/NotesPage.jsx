@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import { NotesSearch } from "../../components/notes/NotesSearch";
 import { CategoryFilter } from "../../components/notes/CategoryFilter";
 import { NotesGrid } from "../../components/notes/NotesGrid";
 import { MagicButton } from "../../components/ui/MagicButton";

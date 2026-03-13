@@ -4,9 +4,13 @@ import ActivityHeatmap from "../../components/ui/ActivityHeatmap";
 import { ActivityIcon, LucideClock } from "lucide-react";
 import DashboardHeader from "./features/DashboardHeader";
 import DashboardStatistic from "./features/DashboardStatistic";
+import { useFetch } from "../../hooks/useFetch";
+import gamificationService from "../../services/app/gamificationService";
+import { useEffect } from "react";
+import authStore from "../../storage/authStore";
 
 export default function DashboardPage() {
-    const name = "Nugroho Nur Cahyo";
+    const { name } = authStore.getUser();
     return (
         <div className="w-full flex flex-col gap-6 p-4 sm:p-8 pb-28 md:pb-8">
 
