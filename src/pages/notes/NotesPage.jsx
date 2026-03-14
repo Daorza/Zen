@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
-import { NotesSearch } from "../../components/notes/NotesSearch";
 import { CategoryFilter } from "../../components/notes/CategoryFilter";
 import { NotesGrid } from "../../components/notes/NotesGrid";
 import { MagicButton } from "../../components/ui/MagicButton";
 import { PlusIcon } from "@heroicons/react/24/outline";
+import { LucidePlus } from "lucide-react";
 import Modal from "../../components/ui/Modal";
 import { Textarea, TextInput } from "../../components/ui/Input";
 import SearchBar from "../../components/ui/SearchBar";
@@ -88,7 +88,7 @@ export default function NotesPage() {
           </div>
 
           <MagicButton className="flex items-center gap-2" onClick={() => setModalOpen(true)}>
-            <PlusIcon className="size-6" />
+            <LucidePlus size={16} />
             Tambah Catatan
           </MagicButton>
         </div>

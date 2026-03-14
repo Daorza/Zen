@@ -1,6 +1,6 @@
-import React from "react";
 import { Container } from "../ui/Container";
 import { Section } from "../ui/Section";
+import GlassCard from "../ui/GlassCard";
 
 const features = [
   {
@@ -22,7 +22,10 @@ const features = [
 
 export default function Features() {
   return (
-    <Section className="mx-8 rounded-2xl bg-slate-900/5 dark:bg-white/5 backdrop-blur-sm items-center flex" id="features">
+    <Section
+      className="mx-8 rounded-2xl bg-slate-900/5 dark:bg-white/5 backdrop-blur-sm items-center flex"
+      id="features"
+    >
       <Container className="space-y-10 text-center text-indigo-950 dark:text-mist-50">
         <h1 className="font-display text-4xl font-bold capitalize">
           Prompt, review, beres!
@@ -30,14 +33,16 @@ export default function Features() {
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, index) => (
-            <div
+            <GlassCard
               key={index}
-              className="flex flex-col items-center space-y-6 rounded-2xl border border-indigo-300/50 dark:border-indigo-100/20 bg-indigo-100/10 dark:bg-indigo-50/10 p-6 backdrop-blur-md transition hover:scale-105"
+              className="p-6 flex flex-col items-center gap-6 even:bg-indigo-400/25 hover:transform hover:scale-105 duration-300"
             >
               <div className="text-4xl">{feature.icon}</div>
-              <h2 className="font-display text-2xl font-bold">{feature.title}</h2>
+              <h2 className="font-display text-2xl font-bold">
+                {feature.title}
+              </h2>
               <p className="opacity-60 mb-4">{feature.description}</p>
-            </div>
+            </GlassCard>
           ))}
         </div>
       </Container>

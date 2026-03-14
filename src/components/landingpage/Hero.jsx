@@ -9,22 +9,20 @@ export default function Hero() {
   const navigate = useNavigate();
   return (
     <Section>
-      <Container className="text-center space-y-6 text-indigo-950 dark:text-mist-50 items-center flex flex-col h-">
+      <Container className="text-center space-y-6 text-indigo-950 dark:text-mist-50 items-center flex flex-col ">
         <section
           className="flex items-center justify-center gap-4 text-sm rounded-lg px-6 py-2 w-fit mx-auto backdrop-blur-lg pointer-events-none border 
-                            dark:bg-mist-50/10  dark:border-white/20 bg-indigo-950/10 border-indigo-400/20 shadow dark:shadow-indigo-50"
+                            dark:bg-mist-50/10  dark:border-white/20 bg-indigo-950/10 border-indigo-600/20 shadow shadow-indigo-400 dark:shadow-indigo-50"
         >
-          <div className="size-4 rounded-full bg-emerald-600 dark:bg-emerald-500">
+          <div className="size-4 rounded-full bg-green-600 dark:bg-emerald-500 shadow shadow-amber-500">
             {/* empty div */}
           </div>
-          <p className="text-xs md:text-sm">
-            Produktivitas tanpa batas!
-          </p>
+          <p className="text-xs md:text-sm">Produktivitas tanpa batas!</p>
         </section>
 
-        <header className="font-display text-4xl md:text-7xl font-black dark:text-mist-50 text-mist-950 ">
+        <header className="font-display text-4xl md:text-7xl font-black dark:text-mist-50 text-slate-800 ">
           Rencanakan hidupmu <br />
-          <span className="bg-clip-text text-transparent bg-linear-to-br from-pink-500 to-cyan-600 dark:bg-linear-to-br dark:from-cyan-400 dark:to-pink-500">
+          <span className="bg-clip-text text-transparent bg-linear-to-br from-fuchsia-500 to-cyan-500 dark:bg-linear-to-br dark:from-cyan-400 dark:to-pink-500">
             secepat dirimu berpikir
           </span>
         </header>
@@ -36,14 +34,20 @@ export default function Hero() {
         </p>
 
         <section className="flex items-center justify-center gap-4 md:gap-8 mt-12 md:mt-16 *:font-semibold *:px-4 md:*:px-8 *:text-sm md:*:text-lg *:rounded-2xl">
-          <Button variant="secondary" className="hover:shadow-lg hover:shadow-indigo-300 hover:scale-105 transition-transform duration-200 border border-indigo-200 rounded-2xl"
-            onClick={() => navigate("/auth/login")}>
-            Mulai sekarang
+          <Button
+            variant="outline"
+            className="flex items-center hover:text-indigo-950 hover:shadow-lg hover:shadow-indigo-300 hover:scale-95 transition-transform duration-200"
+          >
+            <span className="">Pelajari lebih lanjut</span>
+            <ArrowRightIcon className="size-4 ml-2" />
           </Button>
 
-          <Button variant="outline" className="flex items-center hover:text-indigo-950 hover:shadow-lg hover:shadow-indigo-300 hover:scale-95 transition-transform duration-200">
-            Pelajari lebih lanjut
-            <ArrowRightIcon className="size-4 ml-2" />
+          <Button
+            variant="secondary"
+            className="hover:shadow-lg hover:shadow-indigo-300 dark:hover:shadow-indigo-300 hover:scale-105 transition-transform duration-200 border border-indigo-200 rounded-2xl"
+            onClick={() => navigate("/auth/login")}
+          >
+            Mulai sekarang
           </Button>
         </section>
       </Container>

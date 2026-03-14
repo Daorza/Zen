@@ -42,7 +42,7 @@ api.interceptors.response.use(
 
             if (!refreshToken) {
                 authStore.clear();
-                window.location.href = '/login';
+                window.location.href = '/auth/login';
                 return Promise.reject(error);
             }
 

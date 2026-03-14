@@ -17,66 +17,68 @@ import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
  * @param {object}      inputProps    - Any additional props passed directly to <input>
  */
 export function FormInput({
-    id,
-    label,
-    type = "text",
-    name,
-    placeholder,
-    autoComplete,
-    required = false,
-    icon,
-    className = "",
-    ...inputProps
+  id,
+  label,
+  type = "text",
+  name,
+  placeholder,
+  autoComplete,
+  required = false,
+  icon,
+  className = "",
+  ...inputProps
 }) {
-    const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-    const isPassword = type === "password";
-    const resolvedType = isPassword ? (showPassword ? "text" : "password") : type;
+  const isPassword = type === "password";
+  const resolvedType = isPassword ? (showPassword ? "text" : "password") : type;
 
-    return (
-        <div className={`space-y-2 ${className}`}>
-            {label && (
-                <label
-                    htmlFor={id}
-                    className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300"
-                >
-                    {label}
-                </label>
+  return (
+    <div className={`space-y-2 ${className}`}>
+      {label && (
+        <label
+          htmlFor={id}
+          className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300"
+        >
+          {label}
+        </label>
+      )}
+
+      <div className="group mt-2 flex items-center gap-3 rounded-xl border border-slate-300/50 dark:border-slate-100/20 bg-slate-600/20 dark:bg-slate-400/20 px-4 py-3 focus-within:ring-2 focus-within:ring-indigo-400 dark:focus-within:ring-indigo-500 transition">
+        {icon && (
+          <span className="text-slate-500 transition group-focus-within:text-indigo-500 shrink-0">
+            {icon}
+          </span>
+        )}
+
+        <input
+          id={id}
+          type={resolvedType}
+          name={name}
+          required={required}
+          autoComplete={autoComplete}
+          placeholder={placeholder}
+          className="w-full bg-transparent text-sm focus:outline-none dark:text-slate-300 dark:placeholder:text-slate-400 text-slate-900 tracking-wide"
+          {...inputProps}
+        />
+
+        {isPassword && (
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev) => !prev)}
+            className="text-slate-500 transition hover:text-indigo-500 shrink-0"
+            aria-label={
+              showPassword ? "Sembunyikan password" : "Tampilkan password"
+            }
+          >
+            {showPassword ? (
+              <EyeSlashIcon className="size-5" />
+            ) : (
+              <EyeIcon className="size-5" />
             )}
-
-            <div className="group mt-2 flex items-center gap-3 rounded-xl border border-slate-300/50 dark:border-slate-100/20 bg-slate-900/20 dark:bg-slate-400/20 px-4 py-3 focus-within:ring-2 focus-within:ring-indigo-500 transition">
-                {icon && (
-                    <span className="text-slate-500 transition group-focus-within:text-indigo-500 shrink-0">
-                        {icon}
-                    </span>
-                )}
-
-                <input
-                    id={id}
-                    type={resolvedType}
-                    name={name}
-                    required={required}
-                    autoComplete={autoComplete}
-                    placeholder={placeholder}
-                    className="w-full bg-transparent text-sm focus:outline-none placeholder:text-slate-400 text-slate-900 dark:text-slate-100"
-                    {...inputProps}
-                />
-
-                {isPassword && (
-                    <button
-                        type="button"
-                        onClick={() => setShowPassword((prev) => !prev)}
-                        className="text-slate-500 transition hover:text-indigo-500 shrink-0"
-                        aria-label={showPassword ? "Sembunyikan password" : "Tampilkan password"}
-                    >
-                        {showPassword ? (
-                            <EyeSlashIcon className="size-5" />
-                        ) : (
-                            <EyeIcon className="size-5" />
-                        )}
-                    </button>
-                )}
-            </div>
-        </div>
-    );
+          </button>
+        )}
+      </div>
+    </div>
+  );
 }
