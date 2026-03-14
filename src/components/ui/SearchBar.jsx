@@ -11,7 +11,7 @@ export const SearchBar = ({ value, setSearch, placeholder, ...props }) => {
 
             <input type="text"
                 placeholder="Search notes...."
-                className="w-full rounded-2xl border border-white/10 bg-white/5 py-4 px-10 text-sm text-white outline-none transition focus:border-indigo-500 focus:bg-white/10"
+                className="w-full rounded-2xl border dark:border-white/10 border-slate-300 bg-white/60  dark:bg-white/5 py-4 px-10 text-sm text-slate-600 dark:text-white outline-none transition focus:border-indigo-500 focus:bg-white/10 "
                 {...props}
                 value={value}
                 onChange={onChange}

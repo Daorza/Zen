@@ -82,8 +82,8 @@ const StatisticSectionSkeleton = () => (
 );
 
 const DashboardStatistic = () => {
-    const { loading, data, error } = useFetch(() => DashboardService.getSummary());
-    const { data: hmData, loading: hmLoading, error: hmError } = useFetch(() => DashboardService.getHeatmap());
+    const { loading, data, error } = useFetch(() => DashboardService.getSummary(), "dashboard-summary");
+    const { data: hmData, loading: hmLoading, error: hmError } = useFetch(() => DashboardService.getHeatmap(), "dashboard-heatmap");
     useEffect(() => {
         console.log(hmData)
     }, [hmLoading])
