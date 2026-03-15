@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import SideBar from "./Sidebar";
 import BottomBar from "./BottomBar";
 import AppBar from "./AppBar";
+import ChatFAB from "../ui/ChatFAB";
 
 export default function AppLayout() {
     return (
@@ -16,7 +17,7 @@ export default function AppLayout() {
             <div className="w-full h-full overflow-y-auto pt-14 md:pt-0">
                 <Outlet />
             </div>
-
+            <ChatFAB />
             <BottomBar />
         </div>
     );
