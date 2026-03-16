@@ -76,17 +76,17 @@ export function LoginAnimatedPanel() {
 
         {/* Rings */}
         <div className="ring-pulse   absolute size-40      rounded-full border border-indigo-300/20      pointer-events-none" />
-        <div className="ring-pulse-2 absolute size-[280px] rounded-full border border-indigo-300/10      pointer-events-none" />
-        <div className="ring-pulse-3 absolute size-[420px] rounded-full border border-indigo-300/[0.06] pointer-events-none" />
+        <div className="ring-pulse-2 absolute size-70 rounded-full border border-indigo-300/10      pointer-events-none" />
+        <div className="ring-pulse-3 absolute size-105 rounded-full border border-indigo-300/6 pointer-events-none" />
 
         {/* Orbiting dots */}
         <div className="orbit-sm absolute size-40 rounded-full pointer-events-none">
           <div className="absolute -top-1 left-1/2 -translate-x-1/2 size-2.5 rounded-full bg-indigo-400 shadow-[0_0_10px_#818cf8]" />
         </div>
-        <div className="orbit-md absolute size-[280px] rounded-full pointer-events-none">
+        <div className="orbit-md absolute size-70 rounded-full pointer-events-none">
           <div className="absolute -top-1 left-1/2 -translate-x-1/2 size-2 rounded-full bg-sky-400 shadow-[0_0_10px_#38bdf8]" />
         </div>
-        <div className="orbit-lg absolute size-[420px] rounded-full pointer-events-none">
+        <div className="orbit-lg absolute size-105 rounded-full pointer-events-none">
           <div className="absolute -top-1 left-1/2 -translate-x-1/2 size-2 rounded-full bg-purple-400 shadow-[0_0_10px_#c084fc]" />
         </div>
 
@@ -111,7 +111,7 @@ export function LoginAnimatedPanel() {
 
           <div className="flex flex-col gap-3 w-full max-w-xs">
             {FEATURES.map((f) => (
-              <div key={f.label} className="font-dm flex items-center gap-3 px-4 py-2.5 rounded-xl bg-white/[0.04] border border-indigo-300/15 backdrop-blur-sm">
+              <div key={f.label} className="font-dm flex items-center gap-3 px-4 py-2.5 rounded-xl bg-white/4 border border-indigo-300/15 backdrop-blur-sm">
                 <span className="text-base">{f.icon}</span>
                 <span className="text-xs text-indigo-200/90 font-medium">{f.label}</span>
               </div>

@@ -1,84 +1,76 @@
-import { useRef, useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { CategoryFilter } from "../../components/notes/CategoryFilter";
 import { NotesGrid } from "../../components/notes/NotesGrid";
 import { MagicButton } from "../../components/ui/MagicButton";
-import { PlusIcon } from "@heroicons/react/24/outline";
 import { LucidePlus } from "lucide-react";
-import Modal from "../../components/ui/Modal";
-import { Textarea, TextInput } from "../../components/ui/Input";
 import SearchBar from "../../components/ui/SearchBar";
+import { NewNoteModal } from "../../components/notes/NewNoteModal";
+import api from "../../services/api";
 
 const categories = ["Personal", "Work", "Learning", "Finance"];
 
 export default function NotesPage() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [notes, setNotes] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [search, setSearch] = useState("");
+
+  const fetchNotes = async () => {
+    try {
+      setLoading(true);
+      const [notesRes, catRes] = await Promise.all([
+        api.get("/notes"),
+        api.get("/notes/categories"),
+      ]);
+
+      setNotes(notesRes.data.data ?? []);
+      setCategories(catRes.data.data ?? []);
+    } catch (error) {
+      console.error("Gagal memuat catatan:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchNotes();
+  }, []);
+
+  const filteredNotes = useMemo(() => {
+    return notes.filter((note) => {
+      const matchCategory =
+        activeCategory === "All" || note.category === activeCategory;
+
+      const matchSearch =
+        search === "" ||
+        note.title.toLowerCase().includes(search.toLowerCase()) ||
+        note.content.toLowerCase().includes(search.toLowerCase());
+
+      return matchCategory && matchSearch;
+    });
+  }, [notes, activeCategory, search]);
+
+  const handleSaved = () => {
+    setModalOpen(false);
+    fetchNotes();
+  };
+
   return (
     <>
-      <Modal title={"NEW NOTE"} isOpen={modalOpen} onClose={() => setModalOpen(false)}>
-        {/* BODY */}
-        <div className="space-y-6 p-6">
-          <TextInput
-            placeholder="Judul"
-            name="title"
-          // value={payload.title}
-          // onChange={handleChange}
-          />
-
-          <Textarea
-            placeholder="Deskripsi"
-            name="description"
-          // value={payload.description}
-          // onChange={handleChange}
-          />
-
-          {/* CATEGORY */}
-          <div className="space-y-2">
-            <p className="text-xs font-semibold text-slate-400">CATEGORY</p>
-
-            <div className="flex flex-wrap gap-2">
-              {categories.map((category, index) => (
-                <button
-                  key={index}
-                  className="rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-xs text-slate-300 transition hover:bg-indigo-500 hover:text-white"
-                >
-                  {category}
-                </button>
-              ))}
-
-              <MagicButton className="flex items-center gap-2">
-                <PlusIcon className="size-4" />
-                Add
-              </MagicButton>
-            </div>
-          </div>
-        </div>
-
-        {/* FOOTER */}
-        <div className="flex justify-end gap-4 border-t border-white/10 p-6">
-          <button
-            onClick={() => setModalOpen(false)}
-            className="rounded-2xl bg-white/10 px-4 py-2 text-sm text-slate-300 hover:bg-white/20 cursor-pointer">
-            Cancel
-          </button>
-
-          <button
-            onClick={() => {
-              setModalOpen(false);
-            }}
-            className="rounded-2xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500 cursor-pointer">
-            Save Note
-          </button>
-        </div>
-      </Modal>
-
+      <NewNoteModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onSaved={handleSaved}
+        categories={categories}
+        onCategoryAdded={(newCat) => setCategories((prev) => [...prev, newCat])}
+      />
 
       <div className="w-full flex flex-col gap-6 p-4 sm:p-8 pb-28 md:pb-8">
-
-        {/* header */}
-
         <div className="flex justify-between items-center mb-4">
-          <div className="flex flex-col gap-1">
-            <h1 className="text-3xl font-bold dark:text-white text-gray-900">
+          <div className="flex flex-col gap-2">
+            <h1 className="text-3xl font-bold dark:text-white text-slate-900">
               Catatan
             </h1>
 
@@ -87,15 +79,28 @@ export default function NotesPage() {
             </p>
           </div>
 
-          <MagicButton className="flex items-center gap-2" onClick={() => setModalOpen(true)}>
+          <MagicButton
+            onClick={() => setModalOpen(true)}
+            className="flex items-center gap-2"
+          >
             <LucidePlus size={16} />
             Tambah Catatan
           </MagicButton>
         </div>
 
-        <SearchBar />
-        <CategoryFilter />
-        <NotesGrid />
+        <SearchBar
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Cari catatan..."
+        />
+
+        <CategoryFilter
+          categories={categories}
+          active={activeCategory}
+          onSelect={setActiveCategory}
+        />
+
+        <NotesGrid notes={filteredNotes} loading={loading} />
       </div>
     </>
   );

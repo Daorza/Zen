@@ -1,21 +1,25 @@
 import { FolderPlusIcon } from "@heroicons/react/24/solid"
 import { MagicButton } from "../ui/MagicButton"
 
-const categories = [
-  "All",
-  "Personal",
-  "Work",
-  "Learning",
-  "Finance",
-]
+export function CategoryFilter({
+  categories = [], active = "All", onSelect
+}) {
 
-export function CategoryFilter() {
+  const allCategories = ["All", ...categories.map((c) => c.name ?? c)];
+
   return (
     <div className="flex items-center gap-3 pb-2">
-      {categories.map((category, index) => (
+      {allCategories.map((category) => (
         <button
-          key={index}
-          className="group whitespace-nowrap rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-slate-300 transition hover:bg-indigo-500 hover:text-white cursor-pointer"
+          key={category}
+          onClick={() => onSelect?.category}
+          className={`
+            group whitespace-nowrap rounded-2xl border px-4 py-2 text-xs font-semibold transition cursor-pointer
+            ${active === category
+              ? "border-indigo-500 bg-indigo-500/50 text-white"
+              : "border-white/10 bg-white/5 text-slate-300 hover:bg-indigo-500 hover:text-white"
+            }
+            `}
         >
           {category}
         </button>

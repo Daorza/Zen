@@ -4,6 +4,12 @@ export function NotesCard({title, description, date}) {
   return (
     <div className="group relative rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:bg-white/10 hover:border-white/20">
       
+      {category && (
+        <span className="mb-4 inline-block rounded-full bg-indigo-500/20 px-2 py-1 text-xs font-semibold text-indigo-400">
+          {category}
+        </span>
+      )}
+      
       <h2 className="font-semibold text-white">
         {title}
       </h2>
