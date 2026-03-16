@@ -16,6 +16,7 @@ import PasswordPage from "../pages/settings/Password";
 import AppearancePage from "../pages/settings/Appearance";
 import { AuthProvider } from "../hooks/useAuth";
 import RequireAuth from "../components/layouts/RequireAuth";
+import GeneralLayout from "../components/layouts/GeneralLayout";
 
 function RootWithAuth() {
     return (
@@ -29,6 +30,12 @@ const router = createBrowserRouter([
     {
         element: <RootWithAuth />,
         children: [
+            {
+                element: <GeneralLayout />,
+                children: [
+                    { path: '/', element: <LandingPage /> },
+                ]
+            },
             {
                 element: <AuthLayout />,
                 children: [

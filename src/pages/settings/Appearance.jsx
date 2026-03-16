@@ -1,6 +1,6 @@
 import { Sun, Moon, Monitor } from "lucide-react";
 import { useTheme } from "../../hooks/useTheme"; // sesuaikan path
-
+import { switchTransition } from "../../lib/switchTransition";
 const THEMES = [
     { value: "light", label: "Light", icon: Sun },
     { value: "dark", label: "Dark", icon: Moon },
@@ -25,7 +25,7 @@ const AppearancePage = () => {
                     {THEMES.map(({ value, label, icon: Icon }) => (
                         <button
                             key={value}
-                            onClick={() => setTheme(value)}
+                            onClick={(e) => switchTransition(e, () => setTheme(value))}
                             className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200 cursor-pointer
                                 ${theme === value
                                     ? "dark:bg-white/15 bg-white dark:text-white text-gray-900 shadow-sm dark:shadow-black/30 shadow-gray-200"
