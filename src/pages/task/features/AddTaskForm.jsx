@@ -95,7 +95,7 @@ const AddTaskForm = ({ addTodo, setAddModalOpen }) => {
                         type="date"
                         placeholder="Start Time"
                         name="date"
-                        value={payload.startTime}
+                        value={payload.date}
                         onChange={handleChange}
                     />
                     <TimeInput

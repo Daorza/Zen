@@ -3,9 +3,14 @@ import { XMarkIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { MagicButton } from "../ui/MagicButton";
 import Modal from "../ui/Modal";
 import { TextInput, Textarea } from "../ui/Input";
-import api from "../../services/api";
 
-function AddCategoryModal({ isOpen, onClose, onAdded }) {
+const initial = {
+  title: "",
+  content: "",
+  category: "",
+};
+
+function AddCategoryModal({ isOpen, onClose, onAdd }) {
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -19,8 +24,7 @@ function AddCategoryModal({ isOpen, onClose, onAdded }) {
 
     try {
       setLoading(true);
-      const res = await api.post("/notes/categories", { name: trimmed });
-      onAdded(res.data.data);
+      await onAdd(trimmed);
       setName("");
       setError("");
       onClose();
@@ -31,8 +35,14 @@ function AddCategoryModal({ isOpen, onClose, onAdded }) {
     }
   };
 
+  const handleClose = () => {
+    setName("");
+    setError("");
+    onClose();
+  };
+
   return (
-    <Modal title="Kategori Baru" isOpen={isOpen} onClose={onClose}>
+    <Modal title="Kategori Baru" isOpen={isOpen} onClose={handleClose}>
       <div className="space-y-4 p-6">
         <TextInput
           placeholder="Nama kategori"
@@ -52,7 +62,7 @@ function AddCategoryModal({ isOpen, onClose, onAdded }) {
 
       <div className="flex justify-end gap-3 border-t border-white/10 p-6">
         <button
-          onClick={onClose}
+          onClick={handleClose}
           className="rounded-2xl bg-white/10 px-4 py-2 text-sm text-slate-300 hover:bg-white/20 cursor-pointer"
         >
           Batal
@@ -71,14 +81,8 @@ function AddCategoryModal({ isOpen, onClose, onAdded }) {
 }
 
 export function NewNoteModal({
-  isOpen, onClose, onSaved, categories = [], onCategoryAdded
+  isOpen, onClose, onSaved, categories = [], addNote, addCategory
 }) {
-
-  const initial = {
-    title: "",
-    description: "",
-    category: ""
-  };
 
   const [payload, setPayload] = useState(initial);
   const [loading, setLoading] = useState(false);
@@ -90,13 +94,15 @@ export function NewNoteModal({
     setError("");
   }
 
-  const handleSelectCategory = (cat) => {
-    setPayload((prev) => ({ 
-      ...prev, 
-      category: prev.category === cat ? "" : cat, 
-    }));
+  const handleSelectCategory = (name) => {
+    setPayload((prev) => ({ ...prev, category: name === name ? "" : name }));
   }
   
+  const handleCategoryAdded = async (name) => {
+    await addCategory(name);
+    setPayload((prev) => ({ ...prev, category: name }));
+  }
+
   const handleSubmit = async () => {
     if (!payload.title.trim()) {
       setError("Judul catatan harus diisi");
@@ -105,39 +111,29 @@ export function NewNoteModal({
 
     try {
       setLoading(true);
-      await api.post("/notes", {
-        title:    payload.title.trim(),
-        content:  payload.content.trim(),
-        category: payload.category || null,
-      });
-
+      await addNote(payload);
       setPayload(initial);
       onSaved();
-    } catch (err) {
-      setError(err?.response?.data?.message ?? "Gagal menyimpan catatan.");
+    } catch (error) {
+      setError(error?.response?.data?.message ?? "Gagal menyimpan catatan.");
     } finally {
       setLoading(false);
     }
   };
 
-    const handleClose = () => {
+  const handleClose = () => {
     setPayload(initial);
     setError("");
     onClose();
   };
 
-  const handleCategoryAdded = (newCategory) => {
-    onCategoryAdded?.(newCategory);
-    setPayload((prev) => ({ ...prev, category: newCategory.name ?? newCategory }));
-  }
-
   return (
     <>
-    <AddCategoryModal 
-      isOpen={addCatOpen}
-      onClose={() => setAddCatOpen(false)}
-      onAdded={handleCategoryAdded}
-    />
+      <AddCategoryModal
+        isOpen={addCatOpen}
+        onClose={() => setAddCatOpen(false)}
+        onAdd={handleCategoryAdded}
+      />
 
     <Modal
       title="Catatan Baru"
@@ -165,13 +161,14 @@ export function NewNoteModal({
 
         <div className="flex flex-wrap gap-2">
           {categories.map((cat, index) => {
-            const name = cat.name ?? cat;
-            const isActive = payload.category === name;
+            const catName = cat?.name ?? cat;
+            const isActive = payload.category === catName;
             
             return (
               <button
                 key={index}
-                onClick={() => handleSelectCategory(name)}
+                type="button"
+                onClick={() => handleSelectCategory(catName)}
                 className={`rounded-2xl border px-4 py-2 text-xs transition cursor-pointer
                   ${isActive
                     ? "border-indigo-500 bg-indigo-500/50 text-white"
@@ -179,7 +176,7 @@ export function NewNoteModal({
                   }
                 `}
               >
-                {name}
+                {catName}
               </button>
             );
           })}

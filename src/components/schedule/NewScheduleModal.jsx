@@ -1,13 +1,17 @@
 import { useState } from "react";
 import Modal from "../ui/Modal";
 import { TextInput, Textarea } from "../ui/Input";
-import api from "../../services/api";
 
 const priorities = ["low", "medium", "high"];
 const priorityLabels = {
   low: "Rendah",
   medium: "Sedang",
   high: "Tinggi",
+};
+const prioriryActive = {
+  low: "border-slate-400 bg-slate-500 text-white",
+  medium: "border-amber-400 bg-amber-500 text-white",
+  high: "border-red-400 bg-red-500 text-white",
 };
 
 const initial = {
@@ -19,7 +23,7 @@ const initial = {
   priority: "medium",
 };
 
-export function NewScheduleModal({ isOpen, onClose, onSaved }) {
+export function NewScheduleModal({ isOpen, onClose, onSaved, addSchedule }) {
   const [payload, setPayload] = useState(initial);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -57,16 +61,7 @@ export function NewScheduleModal({ isOpen, onClose, onSaved }) {
 
     try {
       setLoading(true);
-      await api.post("/schedule", {
-        title: payload.title.trim(),
-        description: payload.description.trim() || null,
-        date: payload.date,
-        startTime: payload.startTime,
-        endTime: payload.endTime,
-        priority: payload.priority,
-        type: "schedule",
-      });
-
+      await addSchedule(payload);
       setPayload(initial);
       onSaved();
     } catch (error) {
@@ -84,6 +79,12 @@ export function NewScheduleModal({ isOpen, onClose, onSaved }) {
     setError("");
     onClose();
   };
+
+  const timeInputClass = `
+    w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-200
+    outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition
+    scheme-dark
+  `;
 
   return (
     <Modal title="Jadwal Baru" isOpen={isOpen} onClose={handleClose}>
@@ -104,14 +105,13 @@ export function NewScheduleModal({ isOpen, onClose, onSaved }) {
         />
 
         <div className="space-y-1.5">
-          <p className="text-xs font-semibold text-slate-400">Tanggal</p>
-
+          <p className="text-xs font-semibold text-slate-400">TANGGAL</p>
           <input
             type="date"
             name="date"
             value={payload.date}
             onChange={handleChange}
-            className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition scheme-dark"
+            className={timeInputClass}
           />
         </div>
 
@@ -125,42 +125,41 @@ export function NewScheduleModal({ isOpen, onClose, onSaved }) {
               name="startTime"
               value={payload.startTime}
               onChange={handleChange}
-              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-200
-                                    outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition scheme-dark"
+              className={timeInputClass}
             />
           </div>
 
           <div className="space-y-1.5">
-            <p className="text-xs font-semibold text-slate-400">Waktu Selesai</p>
+            <p className="text-xs font-semibold text-slate-400">
+              Waktu Selesai
+            </p>
 
             <input
               type="time"
               name="endTime"
               value={payload.endTime}
               onChange={handleChange}
-              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-200
-                            outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition scheme-dark"
+              className={timeInputClass}
             />
           </div>
 
           {/* priorities */}
           <div className="space-y-2 col-span-2">
-            <p className="text-xs font-semibold text-slate-400">Tingkat Prioritas</p>
+            <p className="text-xs font-semibold text-slate-400">
+              Tingkat Prioritas
+            </p>
             <div className="gap-2 flex">
               {priorities.map((p) => (
                 <button
                   key={p}
+                  type="button"
                   onClick={() =>
                     setPayload((prev) => ({ ...prev, priority: p }))
                   }
                   className={`flex-1 rounded-2xl mx-auto border px-4 py-2 text-xs font-medium transition cursor-pointer
                   ${
                     payload.priority === p
-                      ? p === "high"
-                        ? "border-red-500/80   bg-red-500/20    text-red-500"
-                        : p === "medium"
-                          ? "border-amber-500/80   bg-amber-500/20  text-amber-500"
-                          : "border-slate-400/80  bg-slate-500/20  text-slate-500"
+                      ? prioriryActive[p]
                       : "border-white/10 bg-white/5 text-slate-300 hover:bg-white/10"
                   }`}
                 >
@@ -169,6 +168,7 @@ export function NewScheduleModal({ isOpen, onClose, onSaved }) {
               ))}
             </div>
           </div>
+
           {error && <p className="text-xs text-red-400">{error}</p>}
         </div>
 
