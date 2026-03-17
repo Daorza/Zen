@@ -64,9 +64,14 @@ const SideBar = () => {
 
       {/* Logo */}
       <div className="mx-auto mt-6 overflow-hidden">
+          <NavLink
+          to="/dashboard"
+          className="flex items-center gap-2 group"
+        >
         <h1 className="bg-linear-60 from-blue-500 to-indigo-500 dark:from-blue-400 dark:to-indigo-300 bg-clip-text font-extrabold text-3xl text-transparent whitespace-nowrap">
           {collapsed ? "G" : "Genzen"}
         </h1>
+        </NavLink>
       </div>
       <div className="flex flex-col justify-between h-full mt-8">
         {/* Navigation */}

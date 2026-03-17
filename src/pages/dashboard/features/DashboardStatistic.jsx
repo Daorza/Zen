@@ -49,7 +49,7 @@ const StatisticSection = ({ data }) => {
                         Activities
                     </p>
                     <p className="text-xl font-bold text-slate-800 dark:text-white">
-                        {totalActivities}
+                        {totalActivities} Tasks
                     </p>
                 </div>
             </GlassCard>
@@ -64,7 +64,7 @@ const StatisticSection = ({ data }) => {
                         Focus Time
                     </p>
                     <p className="text-xl font-bold text-slate-800 dark:text-white">
-                        {focusHours} h
+                        {focusHours} Hours
                     </p>
                 </div>
             </GlassCard>

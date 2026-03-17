@@ -9,10 +9,10 @@ export const formatDuration = (startTime, endTime) => {
     const minutes = totalMinutes % 60;
 
     if (hours > 0 && minutes > 0)
-        return `${hours}j ${minutes}m`;
+        return `${hours}h ${minutes}m`;
 
     if (hours > 0)
-        return `${hours}j`;
+        return `${hours}h`;
 
     return `${minutes}m`;
 }

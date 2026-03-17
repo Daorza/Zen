@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { User, Lock, Palette, LogOut, X } from "lucide-react";
+import { User, Lock, Palette, LogOut, X, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import ConfirmModal from "../ui/ConfirmModal";
 
@@ -165,9 +165,14 @@ const AppBar = ({ onLogout }) => {
                 border-b border-indigo-100 dark:border-slate-800"
       >
         {/* Logo */}
-        <h1 className="bg-linear-60 from-blue-500 to-indigo-500 dark:from-blue-400 dark:to-indigo-300 bg-clip-text font-extrabold text-2xl text-transparent">
-          Genzen
-        </h1>
+        <NavLink
+          to="/dashboard"
+          className="flex items-center gap-2 group"
+        >
+          <h1 className="bg-linear-60 from-blue-500 to-indigo-500 dark:from-blue-400 dark:to-indigo-300 bg-clip-text font-extrabold text-2xl text-transparent">
+            Genzen
+          </h1>
+        </NavLink>
 
         {/* Profile avatar button */}
         <button
