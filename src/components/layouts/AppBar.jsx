@@ -3,11 +3,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { User, Lock, Palette, LogOut, X, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import ConfirmModal from "../ui/ConfirmModal";
-
-const PROFILE_DATA = {
-  name: "Nugroho Nur Cahyo",
-  email: "Nuganuca17@gmail.com",
-};
+import useAuth from "../../hooks/useAuth";
+import authStore from "../../storage/authStore";
 
 const MENU_ITEMS = [
   { label: "Profile", icon: User, to: "/profile" },
@@ -19,6 +16,7 @@ const ProfileDrawer = ({ open, onClose, onLogout }) => {
   const navigate = useNavigate();
   const overlayRef = useRef(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const { name, email } = authStore.getUser();
 
   // Close on outside click
   const handleOverlayClick = (e) => {
@@ -69,14 +67,14 @@ const ProfileDrawer = ({ open, onClose, onLogout }) => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-11 h-11 rounded-full bg-linear-to-tr from-indigo-500 to-blue-500 flex items-center justify-center text-white font-black text-sm shrink-0">
-                    {PROFILE_DATA.name.slice(0, 1)}
+                    {name.slice(0, 1)}
                   </div>
                   <div>
                     <p className="text-sm font-bold dark:text-white text-gray-900 uppercase">
-                      {PROFILE_DATA.name}
+                      {name}
                     </p>
                     <p className="text-xs dark:text-white/40 text-gray-500">
-                      {PROFILE_DATA.email}
+                      {email}
                     </p>
                   </div>
                 </div>
@@ -100,11 +98,10 @@ const ProfileDrawer = ({ open, onClose, onLogout }) => {
                     onClick={onClose}
                     className={({ isActive }) =>
                       `flex items-center gap-2.5 px-3 py-2.5 rounded-md text-sm font-medium transition-all duration-150 cursor-pointer
-                                            ${
-                                              isActive
-                                                ? "bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 dark:bg-indigo-200/15"
-                                                : "text-gray-600 dark:text-white/50 hover:bg-gray-500/10 dark:hover:bg-white/5"
-                                            }`
+                                            ${isActive
+                        ? "bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 dark:bg-indigo-200/15"
+                        : "text-gray-600 dark:text-white/50 hover:bg-gray-500/10 dark:hover:bg-white/5"
+                      }`
                     }
                   >
                     <Icon size={16} strokeWidth={2.5} />
@@ -154,7 +151,7 @@ const ProfileDrawer = ({ open, onClose, onLogout }) => {
 
 const AppBar = ({ onLogout }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
-
+  const { name, email } = authStore.getUser();
   return (
     <>
       <header
@@ -179,7 +176,7 @@ const AppBar = ({ onLogout }) => {
           onClick={() => setDrawerOpen(true)}
           className="w-9 h-9 rounded-full bg-linear-to-tr from-indigo-500 to-blue-500 flex items-center justify-center text-white font-black text-sm cursor-pointer shrink-0"
         >
-          {PROFILE_DATA.name.slice(0, 1)}
+          {name.slice(0, 1)}
         </button>
       </header>
 
