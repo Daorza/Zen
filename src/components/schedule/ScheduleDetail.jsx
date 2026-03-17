@@ -1,18 +1,7 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, Edit2, Trash2, Save, Link as LinkIcon, Calendar, Clock, AlignLeft } from "lucide-react";
-import { TextInput, Textarea } from "../ui/Input";
 import { formatDuration } from "../../lib/formatter";
-
-const statuses = {
-  pending: { label: "Pending", color: "text-amber-600 bg-amber-100 border-amber-200 dark:text-amber-400 dark:bg-amber-400/10 dark:border-amber-400/20" },
-  done: { label: "Done", color: "text-emerald-600 bg-emerald-100 border-emerald-200 dark:text-emerald-400 dark:bg-emerald-400/10 dark:border-emerald-400/20" },
-};
-
-const priorities = {
-  low: { label: "Low", className: "text-slate-600 bg-slate-100 border-slate-200 dark:text-slate-400 dark:bg-slate-400/10 dark:border-white/5" },
-  medium: { label: "Medium", className: "text-amber-600 bg-amber-100 border-amber-200 dark:text-amber-400 dark:bg-amber-400/10 dark:border-amber-400/20" },
-  high: { label: "High", className: "text-red-600 bg-red-100 border-red-200 dark:text-red-400 dark:bg-red-400/10 dark:border-red-400/20" },
-};
+import { getAllStatuses, getAllPriorities, StatusBadge, PriorityBadge } from "../ui/Badge";
 
 const fieldClass = `
   w-full border-b border-slate-200 dark:border-white/10 bg-transparent px-0 py-3 text-sm text-slate-800 dark:text-slate-200
@@ -101,8 +90,11 @@ export function ScheduleDetail({ schedule, onClose, onUpdate, onDelete }) {
   const dayName = isNaN(dateObj) ? "" : dateObj.toLocaleDateString("id-ID", { weekday: "long" });
   const fullDate = isNaN(dateObj) ? "" : dateObj.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
 
-  const statusData = statuses[isEditing ? payload.status : schedule.status] || statuses.pending;
-  const priorityData = priorities[isEditing ? payload.priority : schedule.priority] || priorities.medium;
+  const statuses = getAllStatuses();
+  const priorities = getAllPriorities();
+
+  const currentStatus = isEditing ? payload.status : schedule.status;
+  const currentPriority = isEditing ? payload.priority : schedule.priority;
 
   return (
     <div className="w-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -280,12 +272,15 @@ export function ScheduleDetail({ schedule, onClose, onUpdate, onDelete }) {
         /* ── VIEW MODE ── */
         <div className="flex flex-col gap-6">
           <div className="flex flex-wrap items-center gap-3">
-            <span className={`px-2.5 py-1 rounded-lg border font-bold text-xs uppercase tracking-wider ${statusData.color}`}>
-              {statusData.label}
-            </span>
-            <span className={`px-2.5 py-1 rounded-lg border font-bold text-xs uppercase tracking-wider ${priorityData.className}`}>
-              {priorityData.label} Priority
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold text-slate-500 tracking-wider">STATUS:</span>
+              <StatusBadge status={currentStatus} className="!text-xs !px-2.5 !py-1" />
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold text-slate-500 tracking-wider">PRIORITY:</span>
+              <PriorityBadge priority={currentPriority} className="!text-xs !px-2.5 !py-1" />
+            </div>
           </div>
 
           <h1 className="text-3xl font-black text-slate-800 dark:text-white leading-tight">

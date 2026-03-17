@@ -1,16 +1,5 @@
 import { LucideCalendar, LucideCheck, LucideClock, Trash2 } from "lucide-react";
-
-const PRIORITY_STYLES = {
-    high: "bg-red-500/10 text-red-500 border-red-400/20",
-    medium: "bg-amber-500/10 text-amber-500 border-amber-400/20",
-    low: "bg-emerald-500/10 text-emerald-500 border-emerald-400/20",
-};
-
-const PRIORITY_LABELS = {
-    high: "Tinggi",
-    medium: "Sedang",
-    low: "Rendah",
-};
+import { PriorityBadge } from "./Badge";
 
 function formatDate(dateStr) {
     if (!dateStr) return null;
@@ -43,8 +32,6 @@ function formatDate(dateStr) {
 export default function TodoCard({ task, onToggle, onDelete, onClick, small = false }) {
     const done = task.status === "done";
     const priority = task.priority?.toLowerCase();
-    const priorityStyle = PRIORITY_STYLES[priority];
-    const priorityLabel = PRIORITY_LABELS[priority];
 
     const handleToggle = (e) => {
         e.stopPropagation();
@@ -89,10 +76,10 @@ export default function TodoCard({ task, onToggle, onDelete, onClick, small = fa
                 >
                     {task.title}
                 </p>
-                {priorityStyle && (
-                    <span className={`hidden sm:inline-flex text-[10px] font-bold uppercase px-1.5 py-0.5 rounded-md border shrink-0 ${priorityStyle}`}>
-                        {priorityLabel}
-                    </span>
+                {priority && (
+                    <div className="hidden sm:block">
+                        <PriorityBadge priority={priority} />
+                    </div>
                 )}
             </div>
         );
@@ -133,10 +120,10 @@ export default function TodoCard({ task, onToggle, onDelete, onClick, small = fa
                         {task.title}
                     </p>
 
-                    {priorityStyle && (
-                        <span className={`hidden sm:inline-flex text-[10px] font-bold uppercase px-1.5 py-0.5 rounded-md border shrink-0 ${priorityStyle}`}>
-                            {priorityLabel}
-                        </span>
+                    {priority && (
+                        <div className="hidden sm:block">
+                            <PriorityBadge priority={priority} />
+                        </div>
                     )}
                 </div>
 

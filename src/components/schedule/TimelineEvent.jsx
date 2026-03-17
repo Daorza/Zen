@@ -1,45 +1,9 @@
-const statuses = {
-  pending: {
-    label: "Pending",
-    color: "bg-amber-400",
-    badge: "text-amber-400 bg-amber-400/10 border-amber-400/20",
-  },
-  in_progress: {
-    label: "In Progress",
-    color: "bg-indigo-400",
-    badge: "text-indigo-400 bg-indigo-400/10 border-indigo-400/20",
-  },
-  done: {
-    label: "Done",
-    color: "bg-emerald-400",
-    badge: "text-emerald-400 bg-emerald-400/10 border-emerald-400/20",
-  },
-};
 import { LinkIcon } from "@heroicons/react/24/outline";
-
-const priorities = {
-  low: {
-    label: "Low",
-    className: "text-slate-600 bg-slate-100 border-slate-200 dark:text-slate-400 dark:bg-slate-400/10",
-  },
-  medium: {
-    label: "Medium",
-    className: "text-amber-600 bg-amber-100 border-amber-200 dark:text-amber-400 dark:bg-amber-400/10",
-  },
-  high: {
-    label: "High",
-    className: "text-red-600 bg-red-100 border-red-200 dark:text-red-400 dark:bg-red-400/10",
-  },
-};
+import { getStatusData, StatusBadge, PriorityBadge } from "../ui/Badge";
 
 export function TimelineEvent({ time, title, duration, status, priority, linkUrl, isLast, onClick }) {
 
-  const statusData = statuses[status] ?? {
-    label: status,
-    color: "bg-slate-400",
-  };
-
-  const priorityData = priorities[priority] ?? null;
+  const statusData = getStatusData(status);
 
   return (
     <div className="grid grid-cols-[70px_20px_1fr] gap-4">
@@ -74,16 +38,12 @@ export function TimelineEvent({ time, title, duration, status, priority, linkUrl
 
           <span className="size-1 rounded-full bg-slate-400 dark:bg-slate-600" />
 
-          <span className={`px-2 py-0.5 rounded-md lg:rounded-lg font-bold text-[10px] uppercase tracking-wider border ${statusData.badge || 'text-slate-600 bg-slate-100 border-slate-200 dark:text-slate-300 dark:bg-slate-400/10 dark:border-white/5'}`}>
-            {statusData.label}
-          </span>
+          <StatusBadge status={status} />
 
-          {priorityData && (
+          {priority && (
             <>
               <span className="size-1 rounded-full bg-slate-400 dark:bg-slate-600" />
-              <span className={`px-2 py-1 rounded-md font-medium text-xs border ${priorityData.className}`}>
-                {priorityData.label}
-              </span>
+              <PriorityBadge priority={priority} />
             </>
           )}
         </div>

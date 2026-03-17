@@ -1,41 +1,9 @@
 import { LucideLink } from "lucide-react";
-
-const statusData = {
-    pending: {
-        label: "Pending",
-        color: "bg-amber-400",
-        badge: "text-amber-600 bg-amber-400/10 border-amber-400/20 dark:text-amber-400 dark:bg-amber-400/10 dark:border-amber-400/20",
-    },
-    done: {
-        label: "Done",
-        color: "bg-emerald-400",
-        badge: "text-emerald-600 bg-emerald-400/10 border-emerald-400/20 dark:text-emerald-400 dark:bg-emerald-400/10 dark:border-emerald-400/20",
-    },
-    skipped: {
-        label: "Skipped",
-        color: "bg-slate-400",
-        badge: "text-slate-500 bg-slate-400/10 border-slate-400/20 dark:text-slate-400 dark:bg-slate-400/10 dark:border-white/10",
-    },
-};
-
-const priorityData = {
-    low: {
-        label: "Low",
-        className: "text-slate-500 bg-slate-400/10 border-slate-300 dark:text-slate-400 dark:border-white/10",
-    },
-    medium: {
-        label: "Medium",
-        className: "text-amber-600 bg-amber-400/10 border-amber-300 dark:text-amber-400 dark:border-amber-400/20",
-    },
-    high: {
-        label: "High",
-        className: "text-red-600 bg-red-400/10 border-red-300 dark:text-red-400 dark:border-red-400/20",
-    },
-};
+import { getStatusData, StatusBadge, PriorityBadge, getPriorityData } from "../ui/Badge";
 
 export const DashboardTimelineEvent = ({ schedule, isLast }) => {
-    const status = statusData[schedule.status] ?? statusData.pending;
-    const priority = priorityData[schedule.priority] ?? null;
+    const status = getStatusData(schedule.status);
+    const priority = getPriorityData(schedule.priority);
 
     return (
         <div className="grid grid-cols-[8px_1fr] gap-2.5">
@@ -64,15 +32,11 @@ export const DashboardTimelineEvent = ({ schedule, isLast }) => {
                 </div>
 
                 <div className="flex flex-wrap items-center gap-1 text-[10px]">
-                    <span className={`px-1.5 py-0.5 rounded font-bold uppercase tracking-wider border ${status.badge}`}>
-                        {status.label}
-                    </span>
-                    {priority && (
+                    <StatusBadge status={schedule.status} />
+                    {schedule.priority && (
                         <>
-                            <span className="size-0.5 rounded-full bg-slate-400 dark:bg-slate-600" />
-                            <span className={`px-1.5 py-0.5 rounded font-medium border ${priority.className}`}>
-                                {priority.label}
-                            </span>
+                            <span className="size-0.5 rounded-full bg-slate-400 dark:bg-slate-600 mx-0.5" />
+                            <PriorityBadge priority={schedule.priority} />
                         </>
                     )}
                 </div>
