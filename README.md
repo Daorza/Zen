@@ -1,9 +1,9 @@
 # Zen
 
 Berikut adalah informasi utama aplikasi sesuai dengan persyaratan evaluasi:
-Nama Website : Zen \n
-Nama Tim : Gen Deng \n
-Dengan Backend : YA \n
+Nama Website : Zen  
+Nama Tim : Gen Deng   
+Dengan Backend : YA   
 Daftar Fitur Utama : Autentikasi Pengguna, Dashboard Interaktif, Manajemen Jadwal (Schedule), Manajemen Tugas (Task/To-do list), Catatan (Notes), Pesan (AI ChatBot), dan Pengaturan (Settings).
 
 ---
