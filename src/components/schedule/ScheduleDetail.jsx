@@ -1,7 +1,21 @@
 import { useState, useEffect } from "react";
-import { ChevronLeft, Edit2, Trash2, Save, Link as LinkIcon, Calendar, Clock, AlignLeft } from "lucide-react";
+import {
+  ChevronLeft,
+  Edit2,
+  Trash2,
+  Save,
+  Link as LinkIcon,
+  Calendar,
+  Clock,
+  AlignLeft,
+} from "lucide-react";
 import { formatDuration } from "../../lib/formatter";
-import { getAllStatuses, getAllPriorities, StatusBadge, PriorityBadge } from "../ui/Badge";
+import {
+  getAllStatuses,
+  getAllPriorities,
+  StatusBadge,
+  PriorityBadge,
+} from "../ui/Badge";
 
 const fieldClass = `
   w-full border-b border-slate-200 dark:border-white/10 bg-transparent px-0 py-3 text-sm text-slate-800 dark:text-slate-200
@@ -9,7 +23,8 @@ const fieldClass = `
   scheme-light dark:scheme-dark
 `;
 
-const labelClass = "text-[10px] font-bold text-slate-500 tracking-[0.2em] uppercase mb-1 block";
+const labelClass =
+  "text-[10px] font-bold text-slate-500 tracking-[0.2em] uppercase mb-1 block";
 
 export function ScheduleDetail({ schedule, onClose, onUpdate, onDelete }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -53,10 +68,10 @@ export function ScheduleDetail({ schedule, onClose, onUpdate, onDelete }) {
 
   const handleStatusChange = async (newStatus) => {
     try {
-      setPayload(prev => ({ ...prev, status: newStatus }));
+      setPayload((prev) => ({ ...prev, status: newStatus }));
       await onUpdate(schedule.id, { ...payload, status: newStatus });
     } catch (err) {
-      setPayload(prev => ({ ...prev, status: schedule.status }));
+      setPayload((prev) => ({ ...prev, status: schedule.status }));
     }
   };
 
@@ -80,15 +95,25 @@ export function ScheduleDetail({ schedule, onClose, onUpdate, onDelete }) {
       setIsEditing(false);
       setError("");
     } catch (err) {
-      setError(err?.response?.data?.message || err.message || "Gagal menyimpan");
+      setError(
+        err?.response?.data?.message || err.message || "Gagal menyimpan",
+      );
     } finally {
       setLoading(false);
     }
   };
 
   const dateObj = new Date(payload.date || schedule.date);
-  const dayName = isNaN(dateObj) ? "" : dateObj.toLocaleDateString("id-ID", { weekday: "long" });
-  const fullDate = isNaN(dateObj) ? "" : dateObj.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
+  const dayName = isNaN(dateObj)
+    ? ""
+    : dateObj.toLocaleDateString("id-ID", { weekday: "long" });
+  const fullDate = isNaN(dateObj)
+    ? ""
+    : dateObj.toLocaleDateString("id-ID", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
 
   const statuses = getAllStatuses();
   const priorities = getAllPriorities();
@@ -98,7 +123,6 @@ export function ScheduleDetail({ schedule, onClose, onUpdate, onDelete }) {
 
   return (
     <div className="w-full flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500">
-
       {/* HEADER ACTIONS */}
       <div className="flex w-full items-center justify-between mb-8">
         <button
@@ -211,9 +235,10 @@ export function ScheduleDetail({ schedule, onClose, onUpdate, onDelete }) {
                   key={p}
                   onClick={() => setPayload({ ...payload, priority: p })}
                   className={`flex-1 border-b-2 py-2.5 text-xs font-bold uppercase tracking-wider transition cursor-pointer
-                    ${payload.priority === p
-                      ? `${priorities[p].className} border-current`
-                      : "border-slate-200 dark:border-white/10 bg-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-300"
+                    ${
+                      payload.priority === p
+                        ? `${priorities[p].className} border-current`
+                        : "border-slate-200 dark:border-white/10 bg-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-300"
                     }`}
                 >
                   {priorities[p].label}
@@ -231,9 +256,10 @@ export function ScheduleDetail({ schedule, onClose, onUpdate, onDelete }) {
                   key={s}
                   onClick={() => setPayload({ ...payload, status: s })}
                   className={`flex-1 border-b-2 py-2.5 text-xs font-bold uppercase tracking-wider transition cursor-pointer
-                    ${payload.status === s
-                      ? `${statuses[s].color} border-current`
-                      : "border-slate-200 dark:border-white/10 bg-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-300"
+                    ${
+                      payload.status === s
+                        ? `${statuses[s].color} border-current`
+                        : "border-slate-200 dark:border-white/10 bg-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-300"
                     }`}
                 >
                   {statuses[s].label}
@@ -273,17 +299,27 @@ export function ScheduleDetail({ schedule, onClose, onUpdate, onDelete }) {
         <div className="flex flex-col gap-6">
           <div className="flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-slate-500 tracking-wider">STATUS:</span>
-              <StatusBadge status={currentStatus} className="!text-xs !px-2.5 !py-1" />
+              <span className="text-xs font-bold text-slate-500 tracking-wider">
+                STATUS:
+              </span>
+              <StatusBadge
+                status={currentStatus}
+                className="text-xs! px-2.5! py-1!"
+              />
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-slate-500 tracking-wider">PRIORITY:</span>
-              <PriorityBadge priority={currentPriority} className="!text-xs !px-2.5 !py-1" />
+              <span className="text-xs font-bold text-slate-500 tracking-wider">
+                PRIORITY:
+              </span>
+              <PriorityBadge
+                priority={currentPriority}
+                className="text-xs! px-2.5! py-1!"
+              />
             </div>
           </div>
 
-          <h1 className="text-3xl font-black text-slate-800 dark:text-white leading-tight">
+          <h1 className="capitalize text-3xl font-black text-slate-800 dark:text-white leading-tight">
             {schedule.title}
           </h1>
 
@@ -293,8 +329,12 @@ export function ScheduleDetail({ schedule, onClose, onUpdate, onDelete }) {
                 <Calendar size={18} />
               </div>
               <div>
-                <p className="text-[10px] font-bold text-slate-500 tracking-wider uppercase mb-0.5">{dayName}</p>
-                <p className="font-medium text-sm text-slate-800 dark:text-slate-200">{fullDate}</p>
+                <p className="text-[10px] font-bold text-slate-500 tracking-wider uppercase mb-0.5">
+                  {dayName}
+                </p>
+                <p className="font-medium text-sm text-slate-800 dark:text-slate-200">
+                  {fullDate}
+                </p>
               </div>
             </div>
 
@@ -306,7 +346,9 @@ export function ScheduleDetail({ schedule, onClose, onUpdate, onDelete }) {
                 <p className="text-[10px] font-bold text-slate-500 tracking-wider uppercase mb-0.5">
                   {formatDuration(schedule.startTime, schedule.endTime)}
                 </p>
-                <p className="font-medium text-sm text-slate-800 dark:text-slate-200">{schedule.startTime} — {schedule.endTime}</p>
+                <p className="font-medium text-sm text-slate-800 dark:text-slate-200">
+                  {schedule.startTime} — {schedule.endTime}
+                </p>
               </div>
             </div>
           </div>
@@ -319,7 +361,9 @@ export function ScheduleDetail({ schedule, onClose, onUpdate, onDelete }) {
               className="inline-flex items-center gap-2 p-4 mt-2 rounded-2xl border border-indigo-500/20 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 transition-colors w-full sm:w-fit"
             >
               <LinkIcon size={18} />
-              <span className="font-semibold text-sm truncate max-w-[200px] sm:max-w-xs">{schedule.linkUrl}</span>
+              <span className="font-semibold text-sm truncate max-w-50 sm:max-w-xs">
+                {schedule.linkUrl}
+              </span>
             </a>
           )}
 
@@ -330,26 +374,32 @@ export function ScheduleDetail({ schedule, onClose, onUpdate, onDelete }) {
               <AlignLeft size={14} /> Catatan / Deskripsi
             </span>
             {schedule.description ? (
-              <div className="text-slate-700 dark:text-slate-300 min-h-[150px] leading-relaxed whitespace-pre-wrap text-sm">
+              <div className="text-slate-700 dark:text-slate-300 min-h-37.5 leading-relaxed whitespace-pre-wrap text-sm">
                 {schedule.description}
               </div>
             ) : (
-              <p className="text-slate-400 dark:text-slate-500 text-sm italic">Tidak ada catatan ditambahkan.</p>
+              <p className="text-slate-400 dark:text-slate-500 text-sm italic">
+                Tidak ada catatan ditambahkan.
+              </p>
             )}
           </div>
 
           {/* FAST STATUS CHANGER */}
           <div className="mt-8 pt-6 border-t border-slate-200 dark:border-white/5">
-            <p className="text-[10px] font-bold text-slate-500 tracking-[0.2em] uppercase mb-4 text-center">Ganti Status Cepat</p>
+            <p className="text-[10px] font-bold text-slate-500 tracking-[0.2em] uppercase mb-4 text-center">
+              Ganti Status Cepat
+            </p>
             <div className="flex flex-wrap justify-center gap-3">
               {Object.keys(statuses).map((s) => (
                 <button
                   key={s}
                   onClick={() => handleStatusChange(s)}
                   className={`px-6 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition cursor-pointer border
-                    ${schedule.status === s
-                      ? statuses[s].color + " cursor-default opacity-50"
-                      : "border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-800 dark:hover:text-white"}`}
+                    ${
+                      schedule.status === s
+                        ? statuses[s].color + " cursor-default opacity-50"
+                        : "border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-800 dark:hover:text-white"
+                    }`}
                   disabled={schedule.status === s}
                 >
                   Set {statuses[s].label}

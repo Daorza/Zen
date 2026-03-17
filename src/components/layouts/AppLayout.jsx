@@ -1,24 +1,33 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import SideBar from "./Sidebar";
 import BottomBar from "./BottomBar";
 import AppBar from "./AppBar";
 import ChatFAB from "../ui/ChatFAB";
+import useAuth from "../../hooks/useAuth";
 
 export default function AppLayout() {
-    return (
-        <div className="w-full h-screen flex bg-linear-to-tr to-indigo-100 via-zinc-200 from-indigo-300 dark:from-indigo-950 dark:via-gray-900 dark:to-slate-900 transition-all duration-300 ease-in-out">
+  const navigate = useNavigate();
+  const { logout } = useAuth();
 
-            <div className="hidden md:block">
-                <SideBar />
-            </div>
+  const handleLogout = () => {
+    logout();
+    navigate("/auth/login");
+  };
 
-            <AppBar onLogout={() => { }} />
+  return (
+    <div className="w-full h-screen flex">
+      <div className="hidden md:block">
+        <SideBar onLogout={handleLogout} />
+      </div>
 
-            <div className="w-full h-full overflow-y-auto pt-14 md:pt-0">
-                <Outlet />
-            </div>
-            <ChatFAB />
-            <BottomBar />
-        </div>
-    );
+      <AppBar onLogout={handleLogout} />
+
+      <div className="w-full h-full overflow-y-auto pt-14 md:pt-0">
+        <Outlet />
+      </div>
+
+      <ChatFAB />
+      <BottomBar />
+    </div>
+  );
 }

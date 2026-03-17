@@ -21,7 +21,9 @@ export function DayProgressWidget({
         <span className="text-indigo-400">{progress}%</span>
       </div>
 
-      <ProgressBar current={done} total={total === 0 ? 1 : total} />
+      <div className="mx-2">
+        <ProgressBar current={done} total={total === 0 ? 1 : total} />
+      </div>
 
       <div className="flex justify-around gap-4 text-xs text-slate-400 *:flex *:gap-2 *:items-center">
 

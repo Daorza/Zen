@@ -1,10 +1,13 @@
-import { useState } from "react";
-import { useNotes } from "../../hooks/useNotes";
 import { NotesCard } from "./NotesCard";
 import { PaperClipIcon } from "@heroicons/react/24/solid";
 
-export function NotesGrid({ notes = [], loading = false, togglePin, handleDeleteNote, onNoteClick }) {
-
+export function NotesGrid({
+  notes = [],
+  loading = false,
+  togglePin,
+  handleDeleteNote,
+  onNoteClick,
+}) {
   if (loading) {
     return (
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -60,5 +63,5 @@ export function NotesGrid({ notes = [], loading = false, togglePin, handleDelete
         />
       ))}
     </div>
-  )
+  );
 }
