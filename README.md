@@ -1,6 +1,7 @@
 # GenZen
 
 Berikut adalah informasi utama aplikasi sesuai dengan persyaratan evaluasi:
+
 Nama Website : Zen  
 Nama Tim : Gen Deng   
 Dengan Backend : YA   
