@@ -75,9 +75,9 @@ function logsToMap(logs) {
 
 function countToLevel(tasks) {
   if (tasks === 0) return 0;
-  if (tasks <= 2) return 1;
-  if (tasks <= 5) return 2;
-  if (tasks <= 8) return 3;
+  if (tasks <= 1) return 1;
+  if (tasks <= 3) return 2;
+  if (tasks <= 5) return 3;
   return 4;
 }
 

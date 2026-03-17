@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "../ui/Modal";
 import { TextInput, Textarea } from "../ui/Input";
 
@@ -21,12 +21,22 @@ const initial = {
   startTime: "",
   endTime: "",
   priority: "medium",
+  linkUrl: "",
 };
 
-export function NewScheduleModal({ isOpen, onClose, onSaved, addSchedule }) {
+export function NewScheduleModal({ isOpen, onClose, onSaved, addSchedule, selectedDate = new Date() }) {
   const [payload, setPayload] = useState(initial);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (isOpen && selectedDate) {
+      const yyyy = selectedDate.getFullYear();
+      const mm = String(selectedDate.getMonth() + 1).padStart(2, "0");
+      const dd = String(selectedDate.getDate()).padStart(2, "0");
+      setPayload(prev => ({ ...prev, date: `${yyyy}-${mm}-${dd}` }));
+    }
+  }, [isOpen, selectedDate]);
 
   const handleChange = (e) => {
     setPayload((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -81,9 +91,9 @@ export function NewScheduleModal({ isOpen, onClose, onSaved, addSchedule }) {
   };
 
   const timeInputClass = `
-    w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-slate-200
+    w-full rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-4 py-2.5 text-sm text-slate-800 dark:text-slate-200
     outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition
-    scheme-dark
+    scheme-light dark:scheme-dark
   `;
 
   return (
@@ -101,6 +111,14 @@ export function NewScheduleModal({ isOpen, onClose, onSaved, addSchedule }) {
           placeholder="Deskripsi (opsional)"
           name="description"
           value={payload.description}
+          onChange={handleChange}
+        />
+
+        <TextInput
+          placeholder="Link Rapat / Dokumen (opsional)"
+          name="linkUrl"
+          type="url"
+          value={payload.linkUrl}
           onChange={handleChange}
         />
 
@@ -160,7 +178,7 @@ export function NewScheduleModal({ isOpen, onClose, onSaved, addSchedule }) {
                   ${
                     payload.priority === p
                       ? prioriryActive[p]
-                      : "border-white/10 bg-white/5 text-slate-300 hover:bg-white/10"
+                      : "border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10"
                   }`}
                 >
                   {priorityLabels[p]}
@@ -173,10 +191,10 @@ export function NewScheduleModal({ isOpen, onClose, onSaved, addSchedule }) {
         </div>
 
         {/* FOOTER */}
-        <div className="flex justify-end gap-4 border-t border-white/10 p-6">
+        <div className="flex justify-end gap-4 border-t border-slate-200 dark:border-white/10 p-6">
           <button
             onClick={handleClose}
-            className="rounded-2xl bg-white/10 px-4 py-2 text-sm text-slate-300 hover:bg-white/20 cursor-pointer"
+            className="rounded-2xl bg-slate-200 dark:bg-white/10 px-4 py-2 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-white/20 cursor-pointer"
           >
             Batal
           </button>

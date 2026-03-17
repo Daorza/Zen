@@ -1,13 +1,13 @@
 import { AnimatePresence, motion } from "motion/react";
 
-const Modal = ({ isOpen, onClose, title, children }) => {
+const Modal = ({ isOpen, onClose, title, children, className }) => {
     return (
         <AnimatePresence>
             {isOpen && (
                 <motion.div
                     onClick={onClose}
-                    className="fixed inset-0 flex items-center justify-center z-50
-                               bg-gray-900/30 dark:bg-slate-900/40 backdrop-blur-sm"
+                    className={`fixed inset-0 flex items-center justify-center z-50
+                               bg-gray-900/30 dark:bg-slate-900/40 backdrop-blur-sm ${className}`}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}

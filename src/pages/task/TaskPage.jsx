@@ -99,7 +99,7 @@ export default function TaskPage() {
                         initial={{ opacity: 0, y: -6 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -6 }}
-                        className="flex items-center justify-between text-xs text-slate-500 dark:text-white/40 px-1"
+                        className="flex items-center justify-between text-xs text-slate-600 dark:text-white/40 px-1"
                     >
                         <span>
                             Menampilkan{" "}
@@ -124,7 +124,7 @@ export default function TaskPage() {
             ) : error ? (
                 <div className="w-full flex flex-col justify-center gap-4 items-center py-16">
                     <img src="/image/bug-image.svg" alt="bug image" className="w-96 mx-auto" />
-                    <h6 className="text-slate-500 dark:text-white/40">Terjadi Kesalahan</h6>
+                    <h6 className="text-slate-600 dark:text-white/40">Terjadi Kesalahan</h6>
                 </div>
             ) : (
                 <MainTaskSection

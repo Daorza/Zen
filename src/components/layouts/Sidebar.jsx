@@ -8,10 +8,9 @@ import useAuth from "../../hooks/useAuth";
 
 const MENU_ITEMS = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
-  { label: "Tasks", icon: CheckSquare, path: "/task" },
   { label: "Schedule", icon: Calendar, path: "/schedule" },
+  { label: "Tasks", icon: CheckSquare, path: "/task" },
   { label: "Notes", icon: StickyNote, path: "/notes" },
-  { label: "Billing", icon: DollarSign, path: "/billing" }
 ];
 const SideBar = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -47,7 +46,7 @@ const SideBar = () => {
           }
         </h1>
       </div>
-      <div className="flex flex-col justify-between h-full">
+      <div className="flex flex-col justify-between h-full mt-8">
         {/* Navigation */}
         <nav className="flex flex-col gap-2 relative">
           {MENU_ITEMS.map((item) => (

@@ -65,7 +65,7 @@ export function CalendarWidget({ scheduledDates = new Set(), onDateSelect }) {
     if (!day.currentMonth) return false;
 
     const pad = (n) => String(n).padStart(2, "0");
-    const dateStr = `${pad}-${pad(month + 1)}-${pad(day.value)}`;
+    const dateStr = `${year}-${pad(month + 1)}-${pad(day.value)}`;
     return scheduledDates.has(dateStr);
   };
 
@@ -112,8 +112,8 @@ export function CalendarWidget({ scheduledDates = new Set(), onDateSelect }) {
 
             className={`
               ml-2 relative size-9 cursor-pointer rounded-2xl text-sm flex items-center justify-center transition
-              ${!day.currentMonth && "text-slate-600"}
-              ${day.currentMonth && "text-slate-300 hover:bg-white/5"}
+              ${!day.currentMonth && "text-slate-400 dark:text-slate-600"}
+              ${day.currentMonth && "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5"}
               ${isToday(day) && "border border-indigo-500"}
               ${isSelected(day) && "bg-indigo-600 text-white"}
             `}
@@ -121,8 +121,8 @@ export function CalendarWidget({ scheduledDates = new Set(), onDateSelect }) {
               
               {day.value}
 
-              {hasSchedule(day) && !isSelected(day) && (
-                <span className="absolute bottom-1 size-1 rounded-full bg-indigo-400" />
+              {hasSchedule(day) && (
+                <span className={`absolute bottom-1 size-1 rounded-full ${isSelected(day) ? "bg-white" : "bg-indigo-400"}`} />
               )}
             </button>
         ))}

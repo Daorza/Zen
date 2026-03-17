@@ -38,8 +38,9 @@ function formatDate(dateStr) {
  * @param {function} [onToggle]       - Called when checkbox clicked
  * @param {function} [onDelete]       - Called when delete button clicked
  * @param {function} [onClick]        - Called when card body clicked
+ * @param {boolean}  [small]          - Compact mode: hanya checklist + title
  */
-export default function TodoCard({ task, onToggle, onDelete, onClick }) {
+export default function TodoCard({ task, onToggle, onDelete, onClick, small = false }) {
     const done = task.status === "done";
     const priority = task.priority?.toLowerCase();
     const priorityStyle = PRIORITY_STYLES[priority];
@@ -55,14 +56,57 @@ export default function TodoCard({ task, onToggle, onDelete, onClick }) {
         onDelete?.();
     };
 
+    // ── Small variant ──────────────────────────────────────────────
+    if (small) {
+        return (
+            <div
+                onClick={() => onClick?.()}
+                className="group flex items-center gap-3 px-3 py-2 rounded-xl
+                           bg-slate-50 dark:bg-white/5
+                           border border-slate-200 dark:border-white/10
+                           hover:bg-slate-100 dark:hover:bg-white/10
+                           transition-colors duration-200 cursor-pointer w-full"
+            >
+                {/* Checkbox */}
+                <button
+                    onClick={handleToggle}
+                    className={`w-5 h-5 rounded-md border flex items-center justify-center shrink-0
+                                transition-colors duration-200 cursor-pointer
+                                ${done
+                            ? "bg-indigo-500 border-indigo-500"
+                            : "bg-white dark:bg-transparent border-slate-300 dark:border-white/30 hover:border-indigo-500 dark:hover:border-indigo-400"
+                        }`}
+                >
+                    {done && <LucideCheck size={12} strokeWidth={3} className="text-white" />}
+                </button>
+
+                {/* Title only */}
+                <p className={`text-sm font-semibold truncate flex-1 min-w-0
+                               ${done
+                        ? "line-through text-slate-400 dark:text-white/30"
+                        : "text-gray-800 dark:text-white/90"
+                    }`}
+                >
+                    {task.title}
+                </p>
+                {priorityStyle && (
+                    <span className={`hidden sm:inline-flex text-[10px] font-bold uppercase px-1.5 py-0.5 rounded-md border shrink-0 ${priorityStyle}`}>
+                        {priorityLabel}
+                    </span>
+                )}
+            </div>
+        );
+    }
+
+    // ── Default variant ────────────────────────────────────────────
     return (
         <div
             onClick={() => onClick?.()}
             className="group flex items-center gap-3 px-4 py-3 rounded-xl
-                       bg-white/30 dark:bg-white/5
-                       border border-indigo-100 dark:border-white/10
-                       hover:bg-white/50 dark:hover:bg-white/10
-                       transition-colors duration-200 cursor-pointer"
+                       bg-slate-50 dark:bg-white/5
+                       border border-slate-200 dark:border-white/10
+                       hover:bg-slate-100 dark:hover:bg-white/10
+                       transition-colors duration-200 cursor-pointer w-full"
         >
             {/* Checkbox */}
             <button
@@ -71,7 +115,7 @@ export default function TodoCard({ task, onToggle, onDelete, onClick }) {
                             transition-colors duration-200 cursor-pointer
                             ${done
                         ? "bg-indigo-500 border-indigo-500"
-                        : "border-slate-400 dark:border-white/30 hover:border-indigo-400"
+                        : "bg-white dark:bg-transparent border-slate-300 dark:border-white/30 hover:border-indigo-500 dark:hover:border-indigo-400"
                     }`}
             >
                 {done && <LucideCheck size={12} strokeWidth={3} className="text-white" />}

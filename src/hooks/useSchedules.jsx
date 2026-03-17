@@ -11,7 +11,7 @@ export function useSchedules() {
     try {
       setLoading(true);
       setError(null);
-      const res = await api.get("/schedules");
+      const res = await api.get("/activities?type=schedule");
       setSchedules(res.data.data ?? []);
     } catch (err) {
       setError(err?.response?.data?.message ?? "Gagal memuat jadwal.");
@@ -25,10 +25,13 @@ export function useSchedules() {
   }, []);
 
   const schedulesForSelectedDate = useMemo(() => {
-    const dateStr = selectedDate.toISOString().split("T")[0];
+    const yyyy = selectedDate.getFullYear();
+    const mm = String(selectedDate.getMonth() + 1).padStart(2, "0");
+    const dd = String(selectedDate.getDate()).padStart(2, "0");
+    const dateStr = `${yyyy}-${mm}-${dd}`;
     return schedules
-      .filter((s) => s.date.startsWith(dateStr))
-      .sort((a, b) => a.startTime.localeCompare(b.startTime));
+      .filter((s) => s.date && s.date.startsWith(dateStr))
+      .sort((a, b) => (a.startTime || "").localeCompare(b.startTime || ""));
   }, [schedules, selectedDate]);
 
   const scheduledDates = useMemo(() => {
@@ -52,18 +55,59 @@ export function useSchedules() {
   }, [schedulesForSelectedDate]);
 
   const addSchedule = async (payload) => {
-    const res = await api.post("/schedules", {
+    const res = await api.post("/activities", {
       title: payload.title.trim(),
       description: payload.description?.trim() || null,
       date: payload.date,
       startTime: payload.startTime,
       endTime: payload.endTime,
+      linkUrl: payload.linkUrl?.trim() || null,
       priority: payload.priority,
       type: "schedule",
       source: "manual",
     });
     setSchedules((prev) => [...prev, res.data.data]);
     return res.data.data;
+  };
+
+  const updateSchedule = async (id, payload) => {
+    // Optimistic payload mapping
+    const updateData = {
+      title: payload.title?.trim(),
+      description: payload.description?.trim() || null,
+      date: payload.date,
+      startTime: payload.startTime,
+      endTime: payload.endTime,
+      linkUrl: payload.linkUrl?.trim() || null,
+      priority: payload.priority,
+      status: payload.status,
+    };
+
+    // Update local cache immediately
+    setSchedules((prev) =>
+      prev.map((s) => s.id === id ? { ...s, ...updateData } : s)
+    );
+
+    try {
+      const res = await api.put(`/activities/${id}`, updateData);
+      setSchedules((prev) =>
+        prev.map((s) => s.id === id ? res.data.data : s)
+      );
+      return res.data.data;
+    } catch (err) {
+      fetchSchedules();
+      throw err;
+    }
+  };
+
+  const deleteSchedule = async (id) => {
+    setSchedules((prev) => prev.filter((s) => s.id !== id));
+    try {
+      await api.delete(`/activities/${id}`);
+    } catch (err) {
+      fetchSchedules();
+      throw err;
+    }
   };
 
   return {
@@ -76,6 +120,8 @@ export function useSchedules() {
     selectedDate,
     setSelectedDate,
     addSchedule,
+    updateSchedule,
+    deleteSchedule,
     refetch: fetchSchedules,
   };
 }

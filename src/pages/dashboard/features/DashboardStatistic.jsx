@@ -24,47 +24,46 @@ const StatisticSection = ({ data }) => {
 
     return (
         <div className="grid grid-cols-2 gap-4 lg:col-span-2">
-            {/* Status card — full width */}
             <GlassCard className="col-span-2 flex items-center gap-6 p-6 h-48">
                 <CircularProgress percentage={percentage} size={120} />
                 <div>
-                    <p className="text-[11px] font-black uppercase tracking-widest dark:text-white/30 text-gray-600 mb-1">
+                    <p className="text-[11px] font-black uppercase tracking-widest text-slate-500 dark:text-white/30 mb-1">
                         Status
                     </p>
                     <p className="text-xl sm:text-2xl font-extrabold text-indigo-600 dark:text-white uppercase font-display">
                         {statusLabel}
                     </p>
-                    <p className="text-sm font-semibold tracking-tight text-gray-500 dark:text-white/40">
+                    <p className="text-sm font-semibold tracking-tight text-slate-600 dark:text-white/40">
                         {doneActivities} / {totalActivities} tasks done
                     </p>
                 </div>
             </GlassCard>
 
             {/* Activities */}
-            <GlassCard className="col-span-1 flex items-center gap-4 p-4 h-28 active:scale-95 transition-all duration-300">
-                <div className="p-3 bg-indigo-600/10 rounded-xl shrink-0">
-                    <ActivityIcon size={24} className="text-indigo-600" />
+            <GlassCard className="col-span-1 flex items-center gap-4 p-4 h-28 active:scale-95 transition-all duration-300 pointer-events-none">
+                <div className="p-3 bg-indigo-500/10 dark:bg-indigo-600/10 rounded-xl shrink-0 border border-indigo-200 dark:border-transparent">
+                    <ActivityIcon size={24} className="text-indigo-600 dark:text-indigo-500" />
                 </div>
                 <div>
-                    <p className="text-[13px] font-semibold text-gray-600 dark:text-white/40">
+                    <p className="text-[13px] font-semibold text-slate-600 dark:text-white/40">
                         Activities
                     </p>
-                    <p className="text-xl font-bold text-gray-900 dark:text-white">
+                    <p className="text-xl font-bold text-slate-800 dark:text-white">
                         {totalActivities}
                     </p>
                 </div>
             </GlassCard>
 
             {/* Focus Time */}
-            <GlassCard className="col-span-1 flex items-center gap-4 p-4 h-28 active:scale-95 transition-all duration-300">
-                <div className="p-3 bg-indigo-600/10 rounded-xl shrink-0">
-                    <LucideClock size={24} className="text-indigo-600" />
+            <GlassCard className="col-span-1 flex items-center gap-4 p-4 h-28 active:scale-95 transition-all duration-300 pointer-events-none">
+                <div className="p-3 bg-indigo-500/10 dark:bg-indigo-600/10 rounded-xl shrink-0 border border-indigo-200 dark:border-transparent">
+                    <LucideClock size={24} className="text-indigo-600 dark:text-indigo-500" />
                 </div>
                 <div>
-                    <p className="text-[13px] font-semibold text-gray-600 dark:text-white/40">
+                    <p className="text-[13px] font-semibold text-slate-600 dark:text-white/40">
                         Focus Time
                     </p>
-                    <p className="text-xl font-bold text-gray-900 dark:text-white">
+                    <p className="text-xl font-bold text-slate-800 dark:text-white">
                         {focusHours} h
                     </p>
                 </div>

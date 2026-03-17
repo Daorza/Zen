@@ -17,7 +17,7 @@ const MainTaskSection = ({ tasks = [], onToggle, onDelete, isFiltering }) => {
             ))}
 
             {tasks.length === 0 && (
-                <p className="text-center text-sm text-slate-400 dark:text-white/30 py-8">
+                <p className="text-center text-sm text-slate-600 dark:text-white/30 py-8">
                     {isFiltering
                         ? "Tidak ada tugas yang cocok dengan filter."
                         : "Tidak ada tugas untuk ditampilkan."}

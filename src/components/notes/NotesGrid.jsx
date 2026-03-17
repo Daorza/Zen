@@ -1,18 +1,21 @@
+import { useState } from "react";
+import { useNotes } from "../../hooks/useNotes";
 import { NotesCard } from "./NotesCard";
-import { PaperClipIcon  } from "@heroicons/react/24/solid";
+import { PaperClipIcon } from "@heroicons/react/24/solid";
 
-export function NotesGrid({ notes = [], loading = false }) {
+export function NotesGrid({ notes = [], loading = false, togglePin, handleDeleteNote, onNoteClick }) {
+
   if (loading) {
     return (
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
         {[...Array(6)].map((_, index) => (
           <div
             key={index}
-            className="animate-pulse rounded-2xl border border-white/10 bg-white/5 p-6 space-y-4 h-40"
+            className="animate-pulse rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 p-6 space-y-4 h-40"
           >
-            <div className="h-4 w-2/3 rounded-sm bg-white/10" />
-            <div className="h-3 w-full rounded-sm bg-white/10" />
-            <div className="h-3 w-4/5 rounded-sm bg-white/10" />
+            <div className="h-4 w-2/3 rounded-sm bg-slate-200 dark:bg-white/10" />
+            <div className="h-3 w-full rounded-sm bg-slate-200 dark:bg-white/10" />
+            <div className="h-3 w-4/5 rounded-sm bg-slate-200 dark:bg-white/10" />
           </div>
         ))}
       </div>
@@ -31,15 +34,29 @@ export function NotesGrid({ notes = [], loading = false }) {
     );
   }
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("id-ID", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
+
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
       {notes.map((note) => (
-        <NotesCard 
+        <NotesCard
           key={note.id}
           title={note.title}
           description={note.content}
-          category={note.category}
-          date={note.createdAt}
+          category={note.category?.name}
+          date={formatDate(note.createdAt)}
+          isPinned={note.isPinned}
+          color={note.color}
+          onClick={() => onNoteClick?.(note)}
+          onTogglePin={() => togglePin(note.id)}
+          onDelete={() => handleDeleteNote(note.id)}
         />
       ))}
     </div>

@@ -1,45 +1,35 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
+import useSWR from "swr";
 import api from "../services/api";
+import { createNoteList } from "../models/Note";
 
-const INITIAL_FORM = {
-  title: "",
-  content: "",
-  category: "",
+const fetchNotes = async () => {
+  const [notesRes, catsRes] = await Promise.all([
+    api.get("/notes"),
+    api.get("/categories"),
+  ]);
+  return {
+    notes: createNoteList(notesRes.data.data ?? []),
+    categories: catsRes.data.data ?? [],
+  };
 };
 
 export function useNotes() {
-  const [notes, setNotes] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
 
-  const fetchAll = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const [notesRes, catsRes] = await Promise.all([
-        api.get("/notes"),
-        api.get("/notes/categories"),
-      ]);
-      setNotes(notesRes.data.data ?? []);
-      setCategories(catsRes.data.data ?? []);
-    } catch (err) {
-      setError(err?.response?.data?.message ?? "Gagal memuat catatan.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { data, error, isLoading, mutate } = useSWR(
+    "/notes/all",
+    fetchNotes
+  );
 
-  useEffect(() => {
-    fetchAll();
-  }, []);
+  const notes = data?.notes ?? [];
+  const categories = data?.categories ?? [];
 
   const filteredNotes = useMemo(() => {
     return notes.filter((note) => {
       const matchCat =
-        activeCategory === "All" || note.category === activeCategory;
+        activeCategory === "All" || note.category?.name === activeCategory;
       const q = search.toLowerCase();
       const matchSearch =
         !q ||
@@ -50,27 +40,155 @@ export function useNotes() {
   }, [notes, activeCategory, search]);
 
   const addNote = async (payload) => {
-    const res = await api.post("/notes", {
-      title: payload.title.trim(),
-      content: payload.content.trim(),
-      category: payload.category || null,
-    });
-    setNotes((prev) => [res.data.data, ...prev]);
-    return res.data.data;
+    const optimisticNote = {
+      ...payload,
+      id: `temp-${Date.now()}`,
+      category: null,
+      createdAt: new Date().toISOString(),
+    };
+
+    await mutate(
+      async (current) => {
+        const res = await api.post("/notes", {
+          title: payload.title.trim(),
+          content: payload.content.trim(),
+          categoryId: payload.categoryId || null,
+          color: payload.color || null,
+          isPinned: payload.isPinned || false,
+          source: "manual",
+        });
+        const newNote = createNoteList([res.data.data])[0];
+        return { ...current, notes: [newNote, ...(current?.notes ?? [])] };
+      },
+      {
+        optimisticData: { ...data, notes: [optimisticNote, ...notes] },
+        rollbackOnError: true,
+        populateCache: true,
+        revalidate: false,
+      }
+    );
   };
 
   const addCategory = async (name) => {
-    const res = await api.post("/notes/categories", { name: name.trim() });
+    const res = await api.post("/categories", { name: name.trim() });
     const newCat = res.data.data;
-    setCategories((prev) => [...prev, newCat]);
+    await mutate(
+      (current) => ({ ...current, categories: [...(current?.categories ?? []), newCat] }),
+      { revalidate: false }
+    );
     return newCat;
+  };
+
+  const deleteNote = async (id) => {
+    await mutate(
+      async (current) => {
+        await api.delete(`/notes/${id}`);
+        return {
+          ...current,
+          notes: (current?.notes ?? []).filter((note) => note.id !== id),
+        };
+      },
+      {
+        optimisticData: { ...data, notes: notes.filter((note) => note.id !== id) },
+        rollbackOnError: true,
+        populateCache: true,
+        revalidate: false,
+      }
+    );
+  };
+
+  const deleteCategory = async (id) => {
+    await mutate(
+      async (current) => {
+        await api.delete(`/categories/${id}`);
+        return {
+          ...current,
+          categories: (current?.categories ?? []).filter((cat) => cat.id !== id),
+        };
+      },
+      {
+        optimisticData: { ...data, categories: categories.filter((cat) => cat.id !== id) },
+        rollbackOnError: true,
+        populateCache: true,
+        revalidate: false,
+      }
+    );
+  };
+
+  const togglePin = async (id) => {
+    await mutate(
+      async (current) => {
+        const res = await api.patch(`/notes/${id}/pin`);
+        const updated = createNoteList([res.data.data])[0];
+        return {
+          ...current,
+          notes: (current?.notes ?? [])
+            .map((note) => (note.id === id ? updated : note))
+            .sort((a, b) => b.isPinned - a.isPinned),
+        };
+      },
+      {
+        optimisticData: {
+          ...data,
+          notes: notes
+            .map((note) => (note.id === id ? { ...note, isPinned: !note.isPinned } : note))
+            .sort((a, b) => b.isPinned - a.isPinned),
+        },
+        rollbackOnError: true,
+        populateCache: true,
+        revalidate: false,
+      }
+    );
+  }
+  const updateNote = async (id, payload) => {
+    // optimisticData creates a temporary object by merging the payload with the existing note
+    const oldNote = notes.find(n => n.id === id) || {};
+    const optimisticNote = {
+      ...oldNote,
+      ...payload,
+      category: payload.categoryId
+        ? categories.find(c => c.id === payload.categoryId) || null
+        : null
+    };
+
+    await mutate(
+      async (current) => {
+        const res = await api.put(`/notes/${id}`, {
+          title: payload.title?.trim(),
+          content: payload.content?.trim(),
+          categoryId: payload.categoryId || null,
+          color: payload.color || null,
+          isPinned: payload.isPinned ?? false,
+          relatedDate: payload.relatedDate || null,
+        });
+        const updatedNote = createNoteList([res.data.data])[0];
+        return {
+          ...current,
+          notes: (current?.notes ?? [])
+            .map((note) => (note.id === id ? updatedNote : note))
+            .sort((a, b) => b.isPinned - a.isPinned),
+        };
+      },
+      {
+        optimisticData: {
+          ...data,
+          notes: notes
+            .map((note) => (note.id === id ? optimisticNote : note))
+            .sort((a, b) => b.isPinned - a.isPinned),
+        },
+        rollbackOnError: true,
+        populateCache: true,
+        revalidate: false,
+      }
+    );
+    return optimisticNote; // return optimistic data so NoteDetail can update locally instantly
   };
 
   return {
     notes,
     filteredNotes,
     categories,
-    loading,
+    loading: isLoading,
     error,
     search,
     setSearch,
@@ -78,6 +196,10 @@ export function useNotes() {
     setActiveCategory,
     addNote,
     addCategory,
-    refetch: fetchAll,
+    deleteNote,
+    updateNote,
+    togglePin,
+    deleteCategory,
+    refetch: mutate,
   };
 }

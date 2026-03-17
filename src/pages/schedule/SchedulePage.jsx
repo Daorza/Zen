@@ -8,10 +8,12 @@ import { TimelineEvent } from "../../components/schedule/TimelineEvent";
 import { MagicButton } from "../../components/ui/MagicButton";
 import { LucidePlus } from "lucide-react";
 import { NewScheduleModal } from "../../components/schedule/NewScheduleModal";
+import { ScheduleDetail } from "../../components/schedule/ScheduleDetail";
 import { useSchedules } from "../../hooks/useSchedules";
 
 export default function SchedulePage() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [selectedSchedule, setSelectedSchedule] = useState(null);
 
   const {
     schedulesForSelectedDate,
@@ -21,7 +23,14 @@ export default function SchedulePage() {
     selectedDate,
     setSelectedDate,
     addSchedule,
+    updateSchedule,
+    deleteSchedule
   } = useSchedules();
+
+  const handleUpdate = async (id, payload) => {
+    const updated = await updateSchedule(id, payload);
+    if (updated) setSelectedSchedule(updated); // Sync details pane
+  };
 
   return (
     <>
@@ -30,6 +39,7 @@ export default function SchedulePage() {
         onClose={() => setModalOpen(false)}
         onSaved={() => setModalOpen(false)}
         addSchedule={addSchedule}
+        selectedDate={selectedDate}
       />
 
       <div className="w-full flex flex-col gap-6 p-4 sm:p-8 pb-28 md:pb-8">
@@ -78,13 +88,24 @@ export default function SchedulePage() {
             </GlassCard>
           </div>
 
-          {/* TIMELINE */}
-          <GlassCard className="lg:col-span-3 p-6 min-h-90">
-            <Timeline>
-                schedules={schedulesForSelectedDate}
-                selectedDate={selectedDate}
-                loading={loading}
-            </Timeline>
+          {/* TIMELINE OR DETAIL */}
+          <GlassCard className="lg:col-span-3 p-6 min-h-90 relative overflow-hidden">
+            {selectedSchedule ? (
+              <ScheduleDetail
+                schedule={selectedSchedule}
+                onClose={() => setSelectedSchedule(null)}
+                onUpdate={handleUpdate}
+                onDelete={deleteSchedule}
+              />
+            ) : (
+              <Timeline
+                  schedules={schedulesForSelectedDate}
+                  selectedDate={selectedDate}
+                  loading={loading}
+                  onAddClick={() => setModalOpen(true)}
+                  onEventClick={(evt) => setSelectedSchedule(evt)}
+              />
+            )}
           </GlassCard>
         </div>
       </div>

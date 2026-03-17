@@ -6,7 +6,7 @@ export const TextInput = ({ type, placeholder, value, onChange, className, ...pr
             value={value}
             onChange={onChange}
             {...props}
-            className={`w-full border-b border-white/10 bg-transparent pb-1 pl-1 text-lg dark:text-white text-slate-600 outline-none focus:border-indigo-500 ${className}`}
+            className={`w-full border-b border-slate-200 dark:border-white/10 bg-transparent pb-1 pl-1 text-lg dark:text-white text-slate-800 outline-none focus:border-indigo-500 ${className}`}
         />
     )
 }
