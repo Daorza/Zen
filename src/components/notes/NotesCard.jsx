@@ -12,7 +12,18 @@ function formatDate(dateStr) {
   });
 }
 
-export function NotesCard({ title, description, date, category, color, isPinned, onClick, onTogglePin, onDelete, small = false }) {
+export function NotesCard({
+  title,
+  description,
+  date,
+  category,
+  color,
+  isPinned,
+  onClick,
+  onTogglePin,
+  onDelete,
+  small = false,
+}) {
   const handlePin = (e) => {
     e.stopPropagation();
     onTogglePin?.();
@@ -35,11 +46,13 @@ export function NotesCard({ title, description, date, category, color, isPinned,
       >
         {/* Color accent bar */}
         {color && (
-          <div className="h-0.5 w-full shrink-0" style={{ backgroundColor: color }} />
+          <div
+            className="h-0.5 w-full shrink-0"
+            style={{ backgroundColor: color }}
+          />
         )}
 
         <div className="flex flex-col flex-1 gap-2 p-3 w-full">
-
           {/* Top row: title + action buttons */}
           <div className="flex items-start justify-between gap-2">
             <h2 className="text-sm font-bold text-slate-800 dark:text-white leading-snug line-clamp-2 flex-1 min-w-0">
@@ -90,18 +103,21 @@ export function NotesCard({ title, description, date, category, color, isPinned,
             )}
 
             {category && (
-              <span className="inline-flex items-center rounded-full bg-indigo-500/15 border border-indigo-500/20
-                               px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-indigo-400">
+              <span
+                className="inline-flex items-center rounded-full bg-indigo-500/15 border border-indigo-500/20
+                               px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-indigo-400"
+              >
                 {category}
               </span>
             )}
           </div>
-
         </div>
 
-        {/* Hover gradient overlay */}
-        <div className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300
-                        group-hover:opacity-100 bg-gradient-to-br from-indigo-500/5 to-purple-500/5" />
+        {/* Hover linear overlay */}
+        <div
+          className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300
+                        group-hover:opacity-100 bg-linear-to-br from-indigo-500/5 to-purple-500/5"
+        />
       </div>
     );
   }
@@ -117,11 +133,13 @@ export function NotesCard({ title, description, date, category, color, isPinned,
     >
       {/* Color accent bar */}
       {color && (
-        <div className="h-1 w-full shrink-0" style={{ backgroundColor: color }} />
+        <div
+          className="h-1 w-full shrink-0"
+          style={{ backgroundColor: color }}
+        />
       )}
 
       <div className="flex flex-col flex-1 gap-3 p-5">
-
         {/* Top row: title + action buttons */}
         <div className="flex items-start justify-between gap-3">
           <h2 className="text-xl font-bold text-slate-800 dark:text-white leading-snug line-clamp-2 flex-1 min-w-0">
@@ -133,9 +151,10 @@ export function NotesCard({ title, description, date, category, color, isPinned,
               onClick={handlePin}
               title={isPinned ? "Unpin" : "Pin"}
               className={`p-1.5 rounded-lg transition-all duration-200 cursor-pointer
-                ${isPinned
-                  ? "text-indigo-400 bg-indigo-500/15 hover:bg-indigo-500/25"
-                  : "text-slate-600 hover:text-indigo-400 hover:bg-indigo-500/10 opacity-0 group-hover:opacity-100"
+                ${
+                  isPinned
+                    ? "text-indigo-400 bg-indigo-500/15 hover:bg-indigo-500/25"
+                    : "text-slate-600 hover:text-indigo-400 hover:bg-indigo-500/10 opacity-0 group-hover:opacity-100"
                 }`}
             >
               <Pin size={13} className={isPinned ? "fill-indigo-400" : ""} />
@@ -172,18 +191,21 @@ export function NotesCard({ title, description, date, category, color, isPinned,
           )}
 
           {category && (
-            <span className="inline-flex items-center rounded-full bg-indigo-500/15 border border-indigo-500/20
-                             px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-indigo-400">
+            <span
+              className="inline-flex items-center rounded-full bg-indigo-500/15 border border-indigo-500/20
+                             px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-indigo-400"
+            >
               {category}
             </span>
           )}
         </div>
-
       </div>
 
-      {/* Hover gradient overlay */}
-      <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300
-                      group-hover:opacity-100 bg-gradient-to-br from-indigo-500/5 to-purple-500/5" />
+      {/* Hover linear overlay */}
+      <div
+        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300
+                      group-hover:opacity-100 bg-linear-to-br from-indigo-500/5 to-purple-500/5"
+      />
     </div>
   );
 }

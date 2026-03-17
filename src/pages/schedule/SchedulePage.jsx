@@ -10,10 +10,13 @@ import { LucidePlus } from "lucide-react";
 import { NewScheduleModal } from "../../components/schedule/NewScheduleModal";
 import { ScheduleDetail } from "../../components/schedule/ScheduleDetail";
 import { useSchedules } from "../../hooks/useSchedules";
+import ConfirmModal from "../../components/ui/ConfirmModal";
 
 export default function SchedulePage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedSchedule, setSelectedSchedule] = useState(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [targetDeleteId, setTargetDeleteId] = useState(null);
 
   const {
     schedulesForSelectedDate,
@@ -24,12 +27,32 @@ export default function SchedulePage() {
     setSelectedDate,
     addSchedule,
     updateSchedule,
-    deleteSchedule
+    deleteSchedule,
   } = useSchedules();
 
   const handleUpdate = async (id, payload) => {
     const updated = await updateSchedule(id, payload);
     if (updated) setSelectedSchedule(updated); // Sync details pane
+  };
+
+  const handleAskDelete = (id) => {
+    setTargetDeleteId(id);
+    setConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!targetDeleteId) return;
+
+    try {
+      await deleteSchedule(targetDeleteId);
+
+      if (selectedSchedule?.id === targetDeleteId) {
+        setSelectedSchedule(null);
+      }
+    } finally {
+      setTargetDeleteId(null);
+      setConfirmOpen(false);
+    }
   };
 
   return (
@@ -95,20 +118,30 @@ export default function SchedulePage() {
                 schedule={selectedSchedule}
                 onClose={() => setSelectedSchedule(null)}
                 onUpdate={handleUpdate}
-                onDelete={deleteSchedule}
+                onDelete={handleAskDelete}
               />
             ) : (
               <Timeline
-                  schedules={schedulesForSelectedDate}
-                  selectedDate={selectedDate}
-                  loading={loading}
-                  onAddClick={() => setModalOpen(true)}
-                  onEventClick={(evt) => setSelectedSchedule(evt)}
+                schedules={schedulesForSelectedDate}
+                selectedDate={selectedDate}
+                loading={loading}
+                onAddClick={() => setModalOpen(true)}
+                onEventClick={(evt) => setSelectedSchedule(evt)}
               />
             )}
           </GlassCard>
         </div>
       </div>
+
+      <ConfirmModal
+        isOpen={confirmOpen}
+        onClose={() => setConfirmOpen(false)}
+        onConfirm={handleConfirmDelete}
+        title="Hapus jadwal?"
+        description="Jadwal yang dihapus tidak bisa dikembalikan."
+        confirmText="Hapus"
+        variant="danger"
+      />
     </>
   );
 }

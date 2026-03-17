@@ -8,11 +8,14 @@ import { AddCategoryModal } from "../../components/notes/AddCategoryModal";
 import { useNotes } from "../../hooks/useNotes";
 import { AddNoteModal } from "../../components/notes/AddNoteModal";
 import { NoteDetail } from "../../components/notes/NoteDetail";
+import ConfirmModal from "../../components/ui/ConfirmModal";
 
 export default function NotesPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [addCatModalOpen, setAddCatModalOpen] = useState(false);
   const [selectedNote, setSelectedNote] = useState(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [targetDeleteId, setTargetDeleteId] = useState(null);
 
   const {
     filteredNotes,
@@ -31,7 +34,6 @@ export default function NotesPage() {
     deleteCategory,
   } = useNotes();
 
-  // fix: cari id dari nama category, lalu panggil deleteCategory(id)
   const handleDeleteCategory = (categoryName) => {
     const cat = categories.find((c) => c.name === categoryName);
     if (!cat) return;
@@ -45,6 +47,26 @@ export default function NotesPage() {
     const updatedNote = await updateNote(id, payload);
     if (updatedNote) {
       setSelectedNote(updatedNote);
+    }
+  };
+
+  const handleAskDelete = (id) => {
+    setTargetDeleteId(id);
+    setConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!targetDeleteId) return;
+
+    try {
+      await deleteNote(targetDeleteId);
+
+      if (selectedNote?.id === targetDeleteId) {
+        setSelectedNote(null);
+      }
+    } finally {
+      setTargetDeleteId(null);
+      setConfirmOpen(false);
     }
   };
 
@@ -100,7 +122,7 @@ export default function NotesPage() {
               loading={loading}
               error={error}
               togglePin={togglePin}
-              handleDeleteNote={deleteNote}
+              handleDeleteNote={handleAskDelete}
               onNoteClick={(note) => setSelectedNote(note)}
             />
           </>
@@ -110,11 +132,21 @@ export default function NotesPage() {
             onClose={() => setSelectedNote(null)}
             onUpdate={handleUpdateNote}
             togglePin={togglePin}
-            deleteNote={deleteNote}
+            deleteNote={handleAskDelete}
             categories={categories}
           />
         )}
       </div>
+
+      <ConfirmModal
+        isOpen={confirmOpen}
+        onClose={() => setConfirmOpen(false)}
+        onConfirm={handleConfirmDelete}
+        title="Hapus catatan?"
+        description="Catatan yang dihapus tidak bisa dikembalikan."
+        confirmText="Hapus"
+        variant="danger"
+      />
     </>
   );
 }

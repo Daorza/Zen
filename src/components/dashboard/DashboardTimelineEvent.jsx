@@ -10,7 +10,7 @@ export const DashboardTimelineEvent = ({ schedule, isLast }) => {
             {/* Line + Dot */}
             <div className="relative flex justify-center pt-1.5">
                 {!isLast && (
-                    <span className="absolute top-3 bottom-[-12px] w-px bg-slate-200 dark:bg-white/10" />
+                    <span className="absolute top-3 -bottom-3 w-px bg-slate-200 dark:bg-white/10" />
                 )}
                 <span
                     className={`h-2 w-2 rounded-full z-10 shrink-0 ${status.color}`}
